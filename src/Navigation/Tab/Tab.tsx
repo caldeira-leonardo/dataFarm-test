@@ -19,7 +19,7 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 
 export default function LoguedTabs() {
   return (
-    <Tab.Navigator initialRouteName="Settings">
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
         component={Login}

@@ -1,5 +1,18 @@
+import {Theme} from '../../../Theme/Theme';
+
 export type TextProps = {
-  color?: string;
+  color?: keyof typeof Theme.colors;
   onError?: boolean;
   children: React.ReactNode;
-};
+  variant?: VariantProps;
+  bold?: boolean;
+  captalize?: boolean;
+} & import('react-native').TextProps;
+
+type VariantProps =
+  | 'large'
+  | 'title'
+  | 'subtitle'
+  | 'normal'
+  | 'small'
+  | 'extraSmall';

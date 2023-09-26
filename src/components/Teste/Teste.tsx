@@ -6,10 +6,9 @@ import Text from '../elements/Text/Text';
 type TesteComponentProps = {} & NavigationType;
 
 const TesteComponent = ({navigation}: TesteComponentProps) => {
-  console.log('navigation', navigation); // remove logs
   return (
-    <TouchableOpacity onPress={() => navigation?.navigate('Home')}>
-      <Text color="#0f0">Aqui</Text>
+    <TouchableOpacity onPress={() => navigation?.navigate('Login')}>
+      <Text color="alertdark">Aqui</Text>
     </TouchableOpacity>
   );
 };
