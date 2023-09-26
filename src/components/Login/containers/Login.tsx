@@ -5,34 +5,19 @@ import {LoginService} from '../../../Services/User';
 
 type LoginProps = {} & NavigationType;
 
-const mockLogin = {
-  email: 'leob.caldeira@gmail.com',
-  senha: 'GY2XuUYravUYX0yZ@m7Data@2023',
-  idPartner: 372,
-};
-
 const Login = (props: LoginProps) => {
   const {navigation} = props;
   const [isLoading, setIsLoading] = useState(false);
-  async function onSubmit(data: {email: string; senha: string} = mockLogin) {
-    console.log(
-      '----------------------------------------------------------------------------------',
-    ); // remove logs
+  async function onSubmit(data: {email: string; senha: string}) {
     try {
       setIsLoading(true);
-      const resp = await LoginService(data);
+      const resp = await LoginService({...data, idPartner: 372});
+      navigation?.navigate('Teste');
       console.log('resp', resp.data); // remove logs
     } catch (e) {
       console.log('error updating', e);
     } finally {
       setIsLoading(false);
-    }
-
-    console.log(
-      '----------------------------------------------------------------------------------',
-    ); // remove logs
-    if (false) {
-      navigation?.navigate('Teste');
     }
   }
   return <LoginComponent {...props} {...{onSubmit, isLoading}} />;

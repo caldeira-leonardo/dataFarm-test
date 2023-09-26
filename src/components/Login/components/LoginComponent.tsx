@@ -1,50 +1,20 @@
-import React, {useState, useMemo} from 'react';
+import React from 'react';
 import {TouchableWithoutFeedback, Keyboard} from 'react-native';
 import Text from '../../elements/Text/Text';
 import Button from '../../elements/Button/Button';
 import * as S from './StyledLogin';
 import Input from '../../elements/Input/Input';
 import {NavigationType} from '../../../types/types';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {View} from 'react-native';
 
 type LoginComponentProps = {
   onSubmit(form: {email: string; senha: string}): void;
   isLoading: boolean;
 } & NavigationType;
 
-const LoginComponent = ({onSubmit}: LoginComponentProps) => {
-  const [credentials, setCredentials] = useState({
-    email: '',
-    senha: '',
-  });
-  let timer: any;
-
-  function debounce(
-    value: any,
-    credentialType: 'email' | 'senha',
-    timeout: number,
-  ) {
-    clearTimeout(timer);
-    timer = setTimeout(
-      () =>
-        setCredentials(oldValue => ({...oldValue, [credentialType]: value})),
-      timeout,
-    );
-  }
-
-  function handleSubmit() {
-    if (!emailHasError && !passwordHasError) {
-      onSubmit(credentials);
-    }
-  }
-
-  const emailHasError = useMemo(() => {
-    return !emailRegex.test(credentials.email);
-  }, [credentials.email]);
-
-  const passwordHasError = useMemo(() => {
-    return credentials.senha.length < 8;
-  }, [credentials.senha]);
-
+const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
   return (
     <S.Wrapper>
       <S.Content behavior="padding">
@@ -54,27 +24,57 @@ const LoginComponent = ({onSubmit}: LoginComponentProps) => {
           height={80}
         />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <>
-            <Text color="textSecondary" variant="large" bold>
-              Login
-            </Text>
-            <S.Subtitle>Acesse o aplicativo</S.Subtitle>
-            <S.Label>Email</S.Label>
-            <Input
-              onChangeText={e => debounce(e, 'email', 300)}
-              hasError={emailHasError}
-              errorMessage="email inválido"
-            />
-            <S.Label>Senha</S.Label>
-            <Input
-              onChangeText={e => debounce(e, 'senha', 300)}
-              hasError={passwordHasError}
-              errorMessage="Senha muito pequena"
-            />
-            <S.Buttonwrapper>
-              <Button onPress={handleSubmit} title="Entrar" />
-            </S.Buttonwrapper>
-          </>
+          <Formik
+            // Os campos estão preenchidos pois a senha do aplicativo é
+            // extensa, caso haja outro usuário o mesmo pode ser testado na
+            // aplicação
+            initialValues={{
+              email: 'leob.caldeira@gmail.com',
+              senha: 'GY2XuUYravUYX0yZ@m7Data@2023',
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string()
+                .email('Email inválido')
+                .required('Campo obrigatório'),
+              senha: Yup.string()
+                .min(8, 'Mínimo 8 caracteres')
+                .required('Campo obrigatório'),
+            })}
+            onSubmit={values => {
+              onSubmit(values);
+            }}>
+            {({handleChange, handleSubmit, values, errors}) => (
+              <View>
+                <Text color="textSecondary" variant="large" bold>
+                  Login
+                </Text>
+                <S.Subtitle>Acesse o aplicativo</S.Subtitle>
+                <S.Label>Email</S.Label>
+                <Input
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  hasError={!!errors.email}
+                  errorMessage={errors.email}
+                />
+                <S.Label>Senha</S.Label>
+                <Input
+                  value={values.senha}
+                  onChangeText={handleChange('senha')}
+                  hasError={!!errors.senha}
+                  errorMessage={errors.senha}
+                  password
+                />
+
+                <S.Buttonwrapper>
+                  <Button
+                    onPress={() => handleSubmit()}
+                    isLoading={isLoading}
+                    title="Entrar"
+                  />
+                </S.Buttonwrapper>
+              </View>
+            )}
+          </Formik>
         </TouchableWithoutFeedback>
       </S.Content>
     </S.Wrapper>
@@ -82,6 +82,3 @@ const LoginComponent = ({onSubmit}: LoginComponentProps) => {
 };
 
 export default LoginComponent;
-
-const emailRegex =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;

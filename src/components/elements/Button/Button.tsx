@@ -5,7 +5,7 @@ import Text from '../Text/Text';
 
 export default function Buttom(props: ButtonProps): JSX.Element {
   return (
-    <S.Wrapper {...props}>
+    <S.Wrapper {...props} disabled={props.disabled || props.isLoading}>
       <S.Button>
         <Text color="light" bold variant="subtitle">
           {props.title.toUpperCase()}

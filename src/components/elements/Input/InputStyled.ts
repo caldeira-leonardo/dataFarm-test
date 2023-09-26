@@ -9,6 +9,8 @@ export const Input = styled.TextInput.attrs({})<InputProps>`
   font-weight: 500;
   padding: 0;
   margin: 0;
+  padding-right: ${props =>
+    props.paddingRight ? props.paddingRight : props.password ? '50px' : 0};
 `;
 
 export const Wrapper = styled.View``;
@@ -20,4 +22,11 @@ export const Content = styled.View`
   padding: 5px 0;
   margin: 0;
   height: 40px;
+  position: relative;
+`;
+
+export const IconWrapper = styled.TouchableOpacity`
+  position: absolute;
+  right: 15px;
+  top: 5px;
 `;

@@ -4,9 +4,8 @@ import {endpoints} from './endpoints';
 export async function LoginService(credentials: {
   email: string;
   senha: string;
+  idPartner: number;
 }) {
-  console.log('endpoints.login', endpoints.login); // remove logs
-  console.log('credentials', credentials); // remove logs
   try {
     let response = await customFetch(endpoints.login, {
       method: 'POST',
