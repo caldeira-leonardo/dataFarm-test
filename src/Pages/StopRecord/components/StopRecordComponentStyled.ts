@@ -11,6 +11,24 @@ export const Wrapper = styled.View`
 
 export const Content = styled.ScrollView``;
 
+export const EquipmentContent = styled.View`
+  padding: 0 ${Theme.spacings.base}px;
+`;
+
+export const FarmFirldGroup = styled.View`
+  padding: ${Theme.spacings.base}px;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const Farm = styled.View`
+  width: 70%;
+`;
+
+export const Field = styled.View`
+  width: 25%;
+`;
+
 export const NoteTitle = styled.View`
   margin-top: 10px;
   padding: 10px;

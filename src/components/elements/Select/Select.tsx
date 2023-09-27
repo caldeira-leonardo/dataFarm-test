@@ -1,25 +1,42 @@
 import React, {useState} from 'react';
 import * as S from './SelectStyled';
-import {SelectProps} from './SelectTypes';
+import {SelectOption, SelectProps} from './SelectTypes';
 import Text from '../Text/Text';
-import {ChevronDown, ChevronUp} from 'react-native-feather';
-import {Theme} from '../../../Theme/Theme';
+import {Picker} from '@react-native-picker/picker';
 
-export default function Select(props: SelectProps) {
-  const {errorMessage, hasError} = props;
-  const [showOptions, setShowOptions] = useState(false);
+export default function Select({
+  options,
+  errorMessage,
+  hasError,
+  handleChange,
+}: SelectProps) {
+  const [selectedValue, setSelectedValue] = useState<SelectOption>(options[0]);
   return (
-    <S.Wrapper>
-      <S.Content {...props}>
-        <S.Select {...props} textAlignVertical="top" />
-        <S.IconWrapper onPress={() => setShowOptions(oldValue => !oldValue)}>
-          {!showOptions ? (
-            <ChevronDown color={Theme.colors.separator} />
-          ) : (
-            <ChevronUp color={Theme.colors.separator} />
-          )}
-        </S.IconWrapper>
-      </S.Content>
+    <S.Content>
+      <Picker
+        selectedValue={selectedValue?.value}
+        style={{
+          left: -12,
+          right: -12,
+          bottom: -8,
+          position: 'absolute',
+        }}
+        onValueChange={(_, itemIndex) => {
+          handleChange(options[itemIndex]);
+          setSelectedValue(options[itemIndex]);
+        }}>
+        {options.length > 0 ? (
+          options.map(value => (
+            <Picker.Item
+              label={value.label}
+              value={value.key}
+              key={value.key}
+            />
+          ))
+        ) : (
+          <Picker.Item label="" value="0" key="0" />
+        )}
+      </Picker>
       {hasError ? (
         <Text color="error" bold>
           {errorMessage}
@@ -27,6 +44,6 @@ export default function Select(props: SelectProps) {
       ) : (
         <></>
       )}
-    </S.Wrapper>
+    </S.Content>
   );
 }
