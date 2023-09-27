@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationType} from '../../types/types';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 import Text from '../elements/Text/Text';
 
 type TesteComponentProps = {} & NavigationType;

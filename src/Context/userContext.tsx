@@ -8,6 +8,7 @@ type UserContextProps = {
   user: UserProps | null;
   getUserToken(): void;
   updateUserToken(token: string): void;
+  logout(): void;
 };
 
 const UserContext = createContext<UserContextProps>({} as UserContextProps);
@@ -25,8 +26,12 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
     setUser({token});
   }
 
+  function logout() {
+    setUser(null);
+  }
+
   return (
-    <UserContext.Provider value={{user, updateUserToken, getUserToken}}>
+    <UserContext.Provider value={{user, updateUserToken, getUserToken, logout}}>
       {children}
     </UserContext.Provider>
   );

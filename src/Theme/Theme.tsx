@@ -24,4 +24,7 @@ export const Theme = {
     small: '15px',
     extraSmall: '13px',
   },
+  spacings: {
+    base: '20px',
+  },
 };

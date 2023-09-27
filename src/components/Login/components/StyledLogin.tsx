@@ -6,7 +6,7 @@ import {Text} from '../../elements/Text/TextStyled';
 
 export const Wrapper = styled.ScrollView`
   background-color: ${Theme.colors.light};
-  padding: 0 40px;
+  padding: ${`0 ${Theme.spacings.base}`};
 `;
 
 export const ImageStyled = styled.Image.attrs({

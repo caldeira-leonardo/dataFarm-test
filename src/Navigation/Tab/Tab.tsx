@@ -4,6 +4,7 @@ import TesteComponent from '../../components/Teste/Teste';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Clock, Menu, RefreshCcw} from 'react-native-feather';
 import {IconProps, TabOptionsProps} from './TabTypes';
+import LogoutButton from '../../components/elements/LogoutButton/LogoutButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,12 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 
 export default function LoguedTabs() {
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerRight: LogoutButton,
+      }}>
       <Tab.Screen
         name="Home"
         component={Login}

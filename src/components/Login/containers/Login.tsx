@@ -23,6 +23,7 @@ const Login = (props: LoginProps) => {
       setIsLoading(false);
     }
   }
+
   return <LoginComponent {...props} {...{onSubmit, isLoading}} />;
 };
 

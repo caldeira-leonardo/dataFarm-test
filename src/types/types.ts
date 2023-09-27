@@ -5,5 +5,9 @@ export type NavigationType = {
 };
 
 export type RootStackParamList = {
-  [name: string]: undefined;
+  Login: undefined;
+  Teste: undefined;
+  Home: undefined;
+  Settings: undefined;
+  Sincronizar: undefined;
 };

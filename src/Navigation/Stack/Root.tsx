@@ -10,11 +10,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigation() {
   return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        headerTitleAlign: 'center',
-      }}>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
         options={{headerShown: false}}
