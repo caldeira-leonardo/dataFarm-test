@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
 import {StopReadonWrapperProps} from './StopReasonsTypes';
-import {Theme} from '../../../Theme/Theme';
-import Text from '../Text/Text';
+import Text from '../elements/Text/Text';
+import {Theme} from '../../Theme/Theme';
 
 export const Wrapper = styled.View`
   box-sizing: border-box;
-  padding: 0 ${Theme.spacings.base};
+  padding: 0 ${Theme.spacings.base}px;
   flex-direction: column;
   display: block;
 `;
@@ -13,7 +13,7 @@ export const Wrapper = styled.View`
 export const ContentWrapper = styled.View`
   padding: 10px 0;
   width: 100%;
-  border: 1px solid ${Theme.colors.icon};
+  border: 2px solid ${Theme.colors.separator};
   border-radius: 6px;
   max-height: 220px;
   flex-grow: 1;

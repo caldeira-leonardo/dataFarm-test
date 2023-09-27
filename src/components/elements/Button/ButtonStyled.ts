@@ -3,7 +3,9 @@ import {ButtonProps} from './ButtonTypes';
 import {Theme} from '../../../Theme/Theme';
 import {Text} from '../Text/TextStyled';
 
-export const Wrapper = styled.TouchableOpacity<ButtonProps>``;
+export const Wrapper = styled.TouchableOpacity<ButtonProps>`
+  width: 100%;
+`;
 
 export const Button = styled.View<ButtonProps>`
   background-color: ${Theme.colors.primary};

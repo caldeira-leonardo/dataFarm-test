@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import LoginComponent from '../components/LoginComponent';
-import {LoginService} from '../../../Services/User';
 import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
 import {LoginProps} from '../types/LoginTypes';
+import {LoginService} from '../../../Services/User';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();

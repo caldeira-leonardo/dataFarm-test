@@ -1,11 +1,11 @@
 import React from 'react';
-import Login from '../../components/Login/containers/Login';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Clock, Menu, RefreshCcw} from 'react-native-feather';
 import {IconProps, TabOptionsProps} from './TabTypes';
 import LogoutButton from '../../components/elements/LogoutButton/LogoutButton';
 import BackButton from '../../components/elements/BackButton/BackButton';
-import StopRecord from '../../components/StopRecord/containers/StopRecord';
+import {Theme} from '../../Theme/Theme';
+import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +32,7 @@ export default function LoguedTabs() {
         headerTitleStyle: {
           fontSize: 26,
         },
+        tabBarActiveTintColor: Theme.colors.primary,
       }}>
       <Tab.Screen
         name="Registro de parada"
@@ -49,7 +50,7 @@ export default function LoguedTabs() {
       />
       <Tab.Screen
         name="Sincronizar"
-        component={Login}
+        component={StopRecord}
         options={{
           tabBarBadge: '',
           tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),

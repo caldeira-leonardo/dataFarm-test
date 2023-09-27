@@ -1,13 +1,13 @@
 import React from 'react';
 import {TouchableWithoutFeedback, Keyboard} from 'react-native';
-import Text from '../../elements/Text/Text';
-import Button from '../../elements/Button/Button';
+import Button from '../../../components/elements/Button/Button';
 import * as S from './StyledLogin';
-import Input from '../../elements/Input/Input';
+import Input from '../../../components/elements/Input/Input';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {View} from 'react-native';
 import {LoginComponentProps} from '../types/LoginTypes';
+import Text from '../../../components/elements/Text/Text';
 
 const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
   return (
@@ -57,7 +57,7 @@ const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
                   onChangeText={handleChange('senha')}
                   hasError={!!errors.senha}
                   errorMessage={errors.senha}
-                  password
+                  type="password"
                 />
 
                 <S.Buttonwrapper>

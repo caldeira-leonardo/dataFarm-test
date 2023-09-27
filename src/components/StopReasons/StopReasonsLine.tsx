@@ -1,9 +1,9 @@
 import React from 'react';
-import Text from '../Text/Text';
-import {Theme} from '../../../Theme/Theme';
 import {Path, Svg} from 'react-native-svg';
 import * as S from './StopReasonsStyles';
 import {StopReasonsLineProps} from './StopReasonsTypes';
+import Text from '../elements/Text/Text';
+import {Theme} from '../../Theme/Theme';
 
 const StopReasonsLine = ({
   description,

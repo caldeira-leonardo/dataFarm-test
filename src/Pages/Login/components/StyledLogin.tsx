@@ -2,11 +2,11 @@
 
 import styled from 'styled-components/native';
 import {Theme} from '../../../Theme/Theme';
-import {Text} from '../../elements/Text/TextStyled';
+import Text from '../../../components/elements/Text/Text';
 
 export const Wrapper = styled.ScrollView`
   background-color: ${Theme.colors.light};
-  padding: ${`0 ${Theme.spacings.base}`};
+  padding: ${`0 ${Theme.spacings.base}px`};
 `;
 
 export const ImageStyled = styled.Image.attrs({

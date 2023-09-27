@@ -1,5 +1,4 @@
-export type InputProps = {
+export type SelectProps = {
   errorMessage?: string;
   hasError?: boolean;
-  type?: 'password' | 'text';
 } & import('react-native').TextInputProps;

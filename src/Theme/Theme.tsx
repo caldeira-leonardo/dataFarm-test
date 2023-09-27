@@ -26,6 +26,7 @@ export const Theme = {
     extraSmall: '13px',
   },
   spacings: {
-    base: '20px',
+    base: 20,
+    medium: 30,
   },
 };

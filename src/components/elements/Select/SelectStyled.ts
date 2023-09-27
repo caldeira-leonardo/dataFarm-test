@@ -1,9 +1,9 @@
 //@ts-nocheck
 import styled from 'styled-components/native';
 import {Theme} from '../../../Theme/Theme';
-import {InputProps} from './InputTypes';
+import {SelectProps} from './SelectTypes';
 
-export const Input = styled.TextInput.attrs({})<InputProps>`
+export const Select = styled.TextInput.attrs({})<SelectProps>`
   font-size: ${Theme.sizes.normal};
   font-weight: 500;
   padding: 0;

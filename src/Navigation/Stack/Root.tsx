@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Login from '../../components/Login/containers/Login';
 import LoguedTabs from '../Tab/Tab';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/types';
+import Login from '../../Pages/Login/containers/Login';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

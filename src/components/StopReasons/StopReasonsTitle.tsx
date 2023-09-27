@@ -3,7 +3,7 @@ import * as S from './StopReasonsStyles';
 
 function StopReasonsTitle({children}: {children: React.ReactNode}) {
   return (
-    <S.Title color="primary" bold>
+    <S.Title color="secondaryDark" bold>
       {children}
     </S.Title>
   );

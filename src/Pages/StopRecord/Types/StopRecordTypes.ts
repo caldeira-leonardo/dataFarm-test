@@ -1,8 +1,8 @@
 export type StopRecordComponentProps = {
   isLoading: boolean;
-  machineries?: MachineriesProps[];
-  farms?: FarmsProps[];
-  reasons?: ReasonsProps[];
+  machineries: MachineriesProps[];
+  farms: FarmsProps[];
+  reasons: ReasonsProps[];
 };
 
 export type ReasonsProps = {
