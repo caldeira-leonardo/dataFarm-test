@@ -17,7 +17,7 @@ export default function RootStackNavigation() {
         component={Login}
       />
       <Stack.Screen
-        name="Teste"
+        name="Main"
         options={{headerShown: false}}
         component={LoguedTabs}
       />

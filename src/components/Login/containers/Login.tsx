@@ -1,20 +1,24 @@
 import React, {useState} from 'react';
 import LoginComponent from '../components/LoginComponent';
-import {NavigationType} from '../../../types/types';
 import {LoginService} from '../../../Services/User';
 import {useUser} from '../../../Context/userContext';
+import {useNavigation} from '../../../Context/navigationContext';
 
-type LoginProps = {} & NavigationType;
+type LoginProps = {};
 
 const Login = (props: LoginProps) => {
+  const navigation = useNavigation();
   const {updateUserToken} = useUser();
-  const {navigation} = props;
+
   const [isLoading, setIsLoading] = useState(false);
   async function onSubmit(data: {email: string; senha: string}) {
     try {
       setIsLoading(true);
       const resp = await LoginService({...data, idPartner: 372});
-      navigation?.navigate('Teste');
+      navigation?.reset({
+        index: 0,
+        routes: [{name: 'Main'}],
+      });
       console.log('resp', resp.data); // remove logs
       updateUserToken(resp.data.token);
     } catch (e) {

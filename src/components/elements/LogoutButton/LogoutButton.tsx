@@ -2,7 +2,9 @@ import React from 'react';
 import Text from '../Text/Text';
 import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
+import {LogOut} from 'react-native-feather';
 import * as S from './LogoutButtonStyles';
+import {Theme} from '../../../Theme/Theme';
 
 function LogoutButton() {
   const navigation = useNavigation();
@@ -10,7 +12,10 @@ function LogoutButton() {
 
   function onPress() {
     logout();
-    navigation?.navigate('Login');
+    navigation?.reset({
+      index: 0,
+      routes: [{name: 'Login'}],
+    });
   }
 
   return (
@@ -18,6 +23,10 @@ function LogoutButton() {
       <Text color="primary" bold>
         Logout
       </Text>
+
+      <S.Icon>
+        <LogOut color={Theme.colors.primary} />
+      </S.Icon>
     </S.Wrapper>
   );
 }
