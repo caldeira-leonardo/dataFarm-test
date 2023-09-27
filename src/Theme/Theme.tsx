@@ -15,6 +15,7 @@ export const Theme = {
     light: '#FFFFFF',
     success: '#2bb01e',
     separator: '#dee1e6',
+    selectedLight: '#eaf1e8',
   },
   sizes: {
     large: '36px',

@@ -1,12 +1,9 @@
-//@ts-nocheck
 import styled from 'styled-components/native';
 import {ButtonProps} from './ButtonTypes';
 import {Theme} from '../../../Theme/Theme';
 import {Text} from '../Text/TextStyled';
 
-export const Wrapper = styled.TouchableOpacity.attrs(props => ({
-  disabled: props?.isLoading,
-}))<ButtonProps>``;
+export const Wrapper = styled.TouchableOpacity<ButtonProps>``;
 
 export const Button = styled.View<ButtonProps>`
   background-color: ${Theme.colors.primary};

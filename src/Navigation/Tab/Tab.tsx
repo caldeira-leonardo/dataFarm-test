@@ -29,6 +29,9 @@ export default function LoguedTabs() {
         headerRight: LogoutButton,
         headerLeft: BackButton,
         tabBarShowLabel: false,
+        headerTitleStyle: {
+          fontSize: 26,
+        },
       }}>
       <Tab.Screen
         name="Registro de parada"

@@ -1,22 +1,34 @@
-import React, {useEffect} from 'react';
-import {View} from 'react-native';
-import Text from '../../elements/Text/Text';
-import {StopRecordComponentProps} from '../Types/StopRecordTypes';
+import React, {useState} from 'react';
+import {ReasonsProps, StopRecordComponentProps} from '../Types/StopRecordTypes';
+import * as S from './StopRecordComponentStyled';
+import {
+  StopReasons,
+  StopReasonsTitle,
+  StopReasonsLine,
+  StopReasonsContent,
+} from '../../elements/StopReasons/StopReasonsIndex';
 
-const StopRecordComponent = ({
-  isLoading,
-  farms,
-  machineries,
-  reasons,
-}: StopRecordComponentProps) => {
-  useEffect(() => {
-    console.log('isLoading', isLoading, farms, machineries, reasons); //TODO remove log
-  }, [isLoading, farms, machineries, reasons]);
+const StopRecordComponent = ({reasons}: StopRecordComponentProps) => {
+  const [selectedOption, setSelectedOption] = useState<ReasonsProps>();
 
   return (
-    <View>
-      <Text>StopRecordComponent</Text>
-    </View>
+    <S.Wrapper>
+      <StopReasons>
+        <StopReasonsTitle>Motivo da Parada</StopReasonsTitle>
+        <StopReasonsContent>
+          {reasons?.map(reason => (
+            <StopReasonsLine
+              // adicionar um skeleton aqui Quando não possuir nada no estado
+              description={reason.name}
+              iconPath={reason.icon}
+              id={reason.id}
+              isSelected={reason.id === selectedOption?.id}
+              onPress={() => setSelectedOption(reason)}
+            />
+          ))}
+        </StopReasonsContent>
+      </StopReasons>
+    </S.Wrapper>
   );
 };
 

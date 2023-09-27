@@ -1,5 +1,4 @@
 import React from 'react';
-import Text from '../Text/Text';
 import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
 import {LogOut} from 'react-native-feather';
@@ -20,10 +19,6 @@ function LogoutButton() {
 
   return (
     <S.Wrapper onPress={onPress}>
-      <Text color="primary" bold>
-        Logout
-      </Text>
-
       <S.Icon>
         <LogOut color={Theme.colors.primary} />
       </S.Icon>
