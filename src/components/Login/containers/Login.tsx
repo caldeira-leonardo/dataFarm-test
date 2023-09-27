@@ -3,8 +3,7 @@ import LoginComponent from '../components/LoginComponent';
 import {LoginService} from '../../../Services/User';
 import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
-
-type LoginProps = {};
+import {LoginProps} from '../types/LoginTypes';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();
@@ -19,7 +18,6 @@ const Login = (props: LoginProps) => {
         index: 0,
         routes: [{name: 'Main'}],
       });
-      console.log('resp', resp.data); // remove logs
       updateUserToken(resp.data.token);
     } catch (e) {
       console.log('error updating', e);

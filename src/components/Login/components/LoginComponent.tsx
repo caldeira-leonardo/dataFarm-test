@@ -4,15 +4,10 @@ import Text from '../../elements/Text/Text';
 import Button from '../../elements/Button/Button';
 import * as S from './StyledLogin';
 import Input from '../../elements/Input/Input';
-import {NavigationType} from '../../../types/types';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {View} from 'react-native';
-
-type LoginComponentProps = {
-  onSubmit(form: {email: string; senha: string}): void;
-  isLoading: boolean;
-} & NavigationType;
+import {LoginComponentProps} from '../types/LoginTypes';
 
 const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
   return (

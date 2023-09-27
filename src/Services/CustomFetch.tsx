@@ -17,13 +17,14 @@ export default async function customFetch(
   headers = token
     ? {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
+        TokenAuthorization: token,
       }
     : {'Content-Type': 'application/json', Accept: '*/*'};
   let response;
   const newBodyReq = {
     ...bodyReq,
   };
+
   try {
     response = await fetch(finalURL, {
       method,

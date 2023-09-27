@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   //   BatteryCharging,
   //   Coffee,
@@ -23,14 +23,6 @@ const BackButton = ({}: BackButtonProps) => {
       navigation?.goBack();
     }
   }
-
-  useEffect(() => {
-    console.log('canGoBack', canGoBack); //TODO remove log
-  }, [canGoBack]);
-
-  useEffect(() => {
-    console.log('navigation haha', navigation); //TODO remove log
-  }, [navigation]);
 
   return (
     <S.Wrapper onPress={goBack}>

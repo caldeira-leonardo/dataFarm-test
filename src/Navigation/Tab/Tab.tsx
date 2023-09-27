@@ -5,8 +5,7 @@ import {Clock, Menu, RefreshCcw} from 'react-native-feather';
 import {IconProps, TabOptionsProps} from './TabTypes';
 import LogoutButton from '../../components/elements/LogoutButton/LogoutButton';
 import BackButton from '../../components/elements/BackButton/BackButton';
-import StopRecordComponent from '../../components/StopRecord/components/StopRecordComponent';
-import {useNavigation} from '../../Context/navigationContext';
+import StopRecord from '../../components/StopRecord/containers/StopRecord';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +22,7 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 export default function LoguedTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Registro de parada"
       backBehavior="history"
       screenOptions={{
         headerTitleAlign: 'center',
@@ -32,15 +31,15 @@ export default function LoguedTabs() {
         tabBarShowLabel: false,
       }}>
       <Tab.Screen
-        name="Home"
-        component={StopRecordComponent}
+        name="Registro de parada"
+        component={StopRecord}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'clock'}),
         }}
       />
       <Tab.Screen
         name="Settings"
-        component={StopRecordComponent}
+        component={StopRecord}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'menu'}),
         }}
