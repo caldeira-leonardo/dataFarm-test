@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import {
-  BasicValue,
   FarmFieldProps,
   InitialValuesProps,
-  MachineriesProps,
   StopRecordComponentProps,
 } from '../Types/StopRecordTypes';
 import * as S from './StopRecordComponentStyled';
@@ -24,6 +22,7 @@ import {KeyboardAvoidingView} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Shape} from '../../../components/elements/YupShape/YupShape';
+import {ValueProps} from '../../../components/elements/Select/SelectTypes';
 
 const StopRecordComponent = ({
   reasons,
@@ -46,22 +45,22 @@ const StopRecordComponent = ({
     <S.Wrapper>
       <Formik
         initialValues={initialValues}
-        validateOnChange={false}
+        validateOnChange={true}
         validationSchema={Yup.object().shape<Shape<InitialValuesProps>>({
-          machinerie: Yup.object().shape<Shape<BasicValue>>({
+          machinerie: Yup.object().shape<Shape<ValueProps>>({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          farm: Yup.object().shape<Shape<BasicValue>>({
+          farm: Yup.object().shape<Shape<ValueProps>>({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          fieldOption: Yup.object().shape<Shape<BasicValue>>({
+          fieldOption: Yup.object().shape<Shape<ValueProps>>({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          stopReason: Yup.object().shape<Shape<BasicValue>>({
+          stopReason: Yup.object().shape<Shape<ValueProps>>({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
           stopNote: Yup.string(),
-          timer: Yup.number().required().moreThan(0, 'Campo obrigatório'),
+          timer: Yup.number(),
         })}
         onSubmit={values => {
           onSubmit(values);
@@ -88,7 +87,6 @@ const StopRecordComponent = ({
                         subtitle: machinerie?.serialNumber,
                       }))}
                       onChangeValue={value => {
-                        console.log('value', value); // remove logs
                         setFieldValue('machinerie', value);
                         validateField('machinerie');
                       }}
@@ -140,32 +138,36 @@ const StopRecordComponent = ({
                   <StopReasons>
                     <StopReasonsTitle>Motivo da Parada</StopReasonsTitle>
                     <StopReasonsContent>
-                      {reasons?.map(reason => (
-                        <StopReasonsLine
-                          // adicionar um skeleton aqui Quando não possuir nada no estado
-                          description={reason.name}
-                          iconPath={reason.icon}
-                          id={reason.id}
-                          isSelected={
-                            values.stopReason
-                              ? reason.id === values.stopReason?.key
-                              : false
-                          }
-                          onPress={() => {
-                            setFieldValue('stopReason', {
-                              description: reason.name,
-                              id: reason.id,
-                            });
-                            validateField('stopReason');
-                          }}
-                        />
-                      ))}
+                      {reasons?.map(reason => {
+                        return (
+                          <StopReasonsLine
+                            // adicionar um skeleton aqui Quando não possuir nada no estado
+                            description={reason.name}
+                            iconPath={reason.icon}
+                            id={reason.id}
+                            isSelected={
+                              values.stopReason
+                                ? reason.id === values.stopReason?.key
+                                : false
+                            }
+                            onPress={() => {
+                              setFieldValue('stopReason', {
+                                description: reason.name,
+                                key: reason.id,
+                              });
+                              validateField('stopReason');
+                            }}
+                          />
+                        );
+                      })}
                     </StopReasonsContent>
-                    {/* {!!errors.stopReason && (
-                      <Text color="error" bold>
-                        <>{errors.stopReason}</>
-                      </Text>
-                    )} */}
+                    <>
+                      {!!errors.stopReason && (
+                        <Text color="error" bold>
+                          <>{errors.stopReason.key}</>
+                        </Text>
+                      )}
+                    </>
                   </StopReasons>
 
                   <S.NoteContent>
@@ -189,12 +191,9 @@ const StopRecordComponent = ({
               <S.ButtonsWrapper>
                 <S.ButtonContent>
                   <TimeCounter
-                    onPress={value => {
-                      setFieldValue('timer', value);
-                      validateField('timer');
-                    }}
+                    onPress={value => setFieldValue('timer', value)}
                     value={values?.timer ?? 0}
-                    onError={!!errors.timer}
+                    onError={!errors.timer}
                   />
                 </S.ButtonContent>
                 <S.ButtonContent>

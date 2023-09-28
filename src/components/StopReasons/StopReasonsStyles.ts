@@ -15,7 +15,6 @@ export const ContentWrapper = styled.View`
   width: 100%;
   border: 2px solid ${Theme.colors.separator};
   border-radius: 6px;
-  max-height: 220px;
   flex-grow: 1;
   overflow: hidden;
 `;

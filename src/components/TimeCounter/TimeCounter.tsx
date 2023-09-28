@@ -13,16 +13,10 @@ const TimeCounter = ({onPress, value, onError}: TimeCounterProps) => {
         fontSize={20}
         onPress={() => value > 0 && onPress(value - 5)}
       />
-      <S.Counter
-        style={
-          onError
-            ? {
-                borderColor: '#0f0',
-                borderWidth: 2,
-              }
-            : {}
-        }>
-        <Text color="light">{`${value} min`}</Text>
+      <S.Counter>
+        <Text
+          color={onError ? 'light' : 'error'}
+          bold={onError}>{`${value} min`}</Text>
       </S.Counter>
       <PlusCircle
         color={Theme.colors.alert}
