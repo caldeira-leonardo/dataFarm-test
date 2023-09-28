@@ -1,12 +1,7 @@
 export type SelectProps = {
   errorMessage?: string;
   hasError?: boolean;
-  options: SelectOption[];
-  handleChange(value: SelectOption): void;
+  options: any[];
+  handleChange(value: any): void;
+  selectedValue?: string | number;
 } & import('react-native').TextInputProps;
-
-export type SelectOption = {
-  label: string;
-  value: string | number;
-  key: string | number;
-};

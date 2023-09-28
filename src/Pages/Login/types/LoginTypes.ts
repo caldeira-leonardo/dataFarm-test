@@ -1,4 +1,4 @@
-import {NavigationType} from '../../../types/types';
+import {NavigationType} from '../../../Types/types';
 
 export type LoginProps = {};
 

@@ -13,8 +13,8 @@ const StopReasonsLine = ({
   onPress,
 }: StopReasonsLineProps) => {
   return (
-    <S.Line key={id + iconPath} aria-selected={isSelected} onPress={onPress}>
-      <S.Icon>
+    <S.Line key={id} aria-selected={isSelected} onPress={onPress}>
+      <S.Icon key={id + iconPath}>
         <Svg width={30} height={30}>
           <Path
             scaleX={0.03}
@@ -24,7 +24,9 @@ const StopReasonsLine = ({
           />
         </Svg>
       </S.Icon>
-      <Text color="textSecondary">{description}</Text>
+      <Text color="textSecondary" key={id + description}>
+        {description}
+      </Text>
     </S.Line>
   );
 };

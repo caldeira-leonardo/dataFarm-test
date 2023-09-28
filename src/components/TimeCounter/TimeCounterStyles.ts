@@ -8,6 +8,7 @@ export const Wrapper = styled.View`
 
 export const Counter = styled.View`
   background-color: ${Theme.colors.alert};
+  border: 2px solid ${Theme.colors.alert};
   color: ${Theme.colors.light};
   flex-direction: row;
   padding: 15px;

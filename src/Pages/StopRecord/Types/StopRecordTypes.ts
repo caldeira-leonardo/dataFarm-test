@@ -27,3 +27,12 @@ export type MachineriesProps = {
   serialNumber?: string;
   growerId: number;
 };
+
+export type InitialValuesProps = {
+  machinerie: MachineriesProps;
+  farm: FarmsProps;
+  fieldOption: FarmFieldProps;
+  stopReason: ReasonsProps;
+  stopNote?: string;
+  timer?: number;
+};

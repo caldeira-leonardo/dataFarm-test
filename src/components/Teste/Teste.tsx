@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavigationType} from '../../types/types';
+import {NavigationType} from '../../Types/types';
 import {TouchableOpacity} from 'react-native';
 import Text from '../elements/Text/Text';
 
