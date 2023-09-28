@@ -1,3 +1,5 @@
+import {ValueProps} from '../../../components/elements/Select/SelectTypes';
+
 export type StopRecordComponentProps = {
   isLoading: boolean;
   machineries: MachineriesProps[];
@@ -29,10 +31,10 @@ export type MachineriesProps = {
 };
 
 export type InitialValuesProps = {
-  machinerie: MachineriesProps;
-  farm: FarmsProps;
-  fieldOption: FarmFieldProps;
-  stopReason: ReasonsProps;
+  machinerie: ValueProps;
+  farm: ValueProps;
+  fieldOption: ValueProps;
+  stopReason: ValueProps;
   stopNote?: string;
   timer?: number;
 };

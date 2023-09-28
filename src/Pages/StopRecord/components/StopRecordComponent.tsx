@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  BasicValue,
   FarmFieldProps,
   InitialValuesProps,
   MachineriesProps,
@@ -41,32 +42,23 @@ const StopRecordComponent = ({
     setFieldOptions(selectedFarm?.fields);
   }
 
-  function handleVerifyError(value: any) {
-    if (value?.id) {
-      return true;
-    }
-    return false;
-  }
-
   return (
     <S.Wrapper>
       <Formik
         initialValues={initialValues}
         validateOnChange={false}
         validationSchema={Yup.object().shape<Shape<InitialValuesProps>>({
-          machinerie: Yup.object().shape<Shape<MachineriesProps>>({
-            id: Yup.number().moreThan(0, 'Campo obrigatório'),
-            growerId: Yup.number(),
-            name: Yup.string(),
+          machinerie: Yup.object().shape<Shape<BasicValue>>({
+            key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          farm: Yup.object().shape({
-            id: Yup.number().moreThan(0, 'Campo obrigatório'),
+          farm: Yup.object().shape<Shape<BasicValue>>({
+            key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          fieldOption: Yup.object().shape({
-            id: Yup.number().moreThan(0, 'Campo obrigatório'),
+          fieldOption: Yup.object().shape<Shape<BasicValue>>({
+            key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
-          stopReason: Yup.object().shape({
-            id: Yup.number().moreThan(0, 'Campo obrigatório'),
+          stopReason: Yup.object().shape<Shape<BasicValue>>({
+            key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
           stopNote: Yup.string(),
           timer: Yup.number().required().moreThan(0, 'Campo obrigatório'),
@@ -75,7 +67,7 @@ const StopRecordComponent = ({
           onSubmit(values);
         }}>
         {({handleSubmit, values, errors, setFieldValue, validateField}) => {
-          console.log('values', values); // remove logs
+          // console.log('errors', errors); // remove logs
 
           return (
             <>
@@ -86,15 +78,17 @@ const StopRecordComponent = ({
                       Equipamento
                     </Text>
                     <Select
-                      selectedValue={values?.machinerie?.id}
-                      hasError={handleVerifyError(errors?.machinerie)}
-                      errorMessage={errors?.machinerie && errors.machinerie.id}
+                      placeholder="Select"
+                      value={values?.machinerie}
+                      hasError={!!errors?.machinerie?.key}
+                      errorMessage={errors?.machinerie && errors.machinerie.key}
                       options={machineries.map(machinerie => ({
-                        label: machinerie?.name,
-                        value: machinerie?.id,
+                        value: machinerie?.name,
                         key: machinerie?.id,
+                        subtitle: machinerie?.serialNumber,
                       }))}
-                      handleChange={value => {
+                      onChangeValue={value => {
+                        console.log('value', value); // remove logs
                         setFieldValue('machinerie', value);
                         validateField('machinerie');
                       }}
@@ -106,15 +100,15 @@ const StopRecordComponent = ({
                         Fazenda
                       </Text>
                       <Select
-                        selectedValue={values?.farm?.name}
+                        placeholder="Select"
+                        value={values?.farm}
                         hasError={!!errors.farm}
-                        errorMessage={errors.farm ? errors.farm.id : ''}
+                        errorMessage={errors.farm ? errors.farm.key : ''}
                         options={farms.map(farm => ({
-                          label: farm?.name,
-                          value: farm?.id,
+                          value: farm?.name,
                           key: farm?.id,
                         }))}
-                        handleChange={value => {
+                        onChangeValue={value => {
                           setFieldValue('farm', value);
                           handleSelectFarm(value);
                           validateField('farm');
@@ -126,17 +120,17 @@ const StopRecordComponent = ({
                         Talhão
                       </Text>
                       <Select
-                        selectedValue={values?.fieldOption?.name}
+                        placeholder="Select"
+                        value={values?.fieldOption}
                         hasError={!!errors.fieldOption}
                         errorMessage={
-                          errors?.fieldOption ? errors?.fieldOption.id : ''
+                          errors?.fieldOption ? errors?.fieldOption.key : ''
                         }
                         options={fieldOptions.map(fieldOption => ({
-                          label: fieldOption?.name,
-                          value: fieldOption?.id,
+                          value: fieldOption?.name,
                           key: fieldOption?.id,
                         }))}
-                        handleChange={value => {
+                        onChangeValue={value => {
                           setFieldValue('fieldOption', value);
                           validateField('fieldOption');
                         }}
@@ -154,7 +148,7 @@ const StopRecordComponent = ({
                           id={reason.id}
                           isSelected={
                             values.stopReason
-                              ? reason.id === values.stopReason?.id
+                              ? reason.id === values.stopReason?.key
                               : false
                           }
                           onPress={() => {
@@ -167,6 +161,11 @@ const StopRecordComponent = ({
                         />
                       ))}
                     </StopReasonsContent>
+                    {/* {!!errors.stopReason && (
+                      <Text color="error" bold>
+                        <>{errors.stopReason}</>
+                      </Text>
+                    )} */}
                   </StopReasons>
 
                   <S.NoteContent>
@@ -214,25 +213,20 @@ export default StopRecordComponent;
 
 const initialValues: InitialValuesProps = {
   machinerie: {
-    growerId: -1,
-    id: -1,
-    name: '',
+    key: -1,
+    value: '',
   },
   farm: {
-    fields: [],
-    growerId: -1,
-    growerName: '',
-    id: -1,
-    name: '',
+    key: -1,
+    value: '',
   },
   fieldOption: {
-    id: -1,
-    name: '',
+    key: -1,
+    value: '',
   },
   stopReason: {
-    icon: '',
-    id: -1,
-    name: '',
+    key: -1,
+    value: '',
   },
   stopNote: '',
 };

@@ -1,53 +1,103 @@
-import React, {useEffect} from 'react';
-import * as S from './SelectStyled';
-import {SelectProps} from './SelectTypes';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Dropdown} from 'react-native-element-dropdown';
+import {Theme} from '../../../Theme/Theme';
+import {SepectProps} from './SelectTypes';
 import Text from '../Text/Text';
-import {Picker} from '@react-native-picker/picker';
 
-export default function Select({
+function Select({
+  defaultValue = {key: -1, value: ''},
+  searchOnOptions = false,
+  value,
+  onChangeValue,
   options,
+  searchLabel,
+  placeholder,
   errorMessage,
   hasError,
-  handleChange,
-  selectedValue = '',
-}: SelectProps) {
-  useEffect(() => {
-    console.log('selectedValue', selectedValue); //TODO remove log
-  }, [selectedValue]);
+}: SepectProps) {
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
-    <>
-      <S.Content>
-        <Picker
-          selectedValue={selectedValue}
-          style={{
-            left: -12,
-            right: -12,
-            bottom: -8,
-            position: 'absolute',
+    <View>
+      <View style={styles.container}>
+        <Dropdown
+          style={[
+            styles.dropdown,
+            isFocus && styles.onFocus,
+            value?.subtitle ? styles.subtitle : {},
+          ]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={[
+            styles.selectedTextStyle,
+            value?.subtitle ? styles.subtitle : {},
+          ]}
+          mode="modal"
+          data={options}
+          search={searchOnOptions}
+          labelField="value"
+          valueField="key"
+          placeholder={placeholder}
+          searchPlaceholder={searchLabel}
+          value={value.value ? value : defaultValue}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            onChangeValue(item);
+            setIsFocus(false);
           }}
-          onValueChange={(_, itemIndex) => {
-            handleChange(options[itemIndex]);
-          }}>
-          {options.length > 0 ? (
-            options.map(value => (
-              <Picker.Item
-                label={value.label}
-                value={value.key}
-                key={value.key}
-              />
-            ))
-          ) : (
-            <Picker.Item label="" value="0" key="0" />
-          )}
-        </Picker>
-      </S.Content>
-      {hasError ? (
-        <Text color="error" bold>
+        />
+        {value?.subtitle && (
+          <Text style={styles.text} variant="small" color="subtitle" bold>
+            {value?.subtitle}
+          </Text>
+        )}
+      </View>
+      {hasError && (
+        <Text color="error" bold onPress={() => setIsFocus(true)}>
           {errorMessage}
         </Text>
-      ) : (
-        <></>
       )}
-    </>
+    </View>
   );
 }
+
+export default Select;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    position: 'relative',
+  },
+  dropdown: {
+    height: 50,
+    borderColor: Theme.colors.separator,
+    borderBottomWidth: 2,
+    paddingHorizontal: 8,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    height: '100%',
+    zIndex: 1,
+    textAlignVertical: 'center',
+  },
+  SearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  onFocus: {
+    borderColor: Theme.colors.secondaryDark,
+  },
+  text: {
+    position: 'absolute',
+    bottom: 8,
+    left: 8,
+    zIndex: -1,
+  },
+  subtitle: {
+    top: -4,
+  },
+});

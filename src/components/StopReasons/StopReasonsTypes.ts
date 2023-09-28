@@ -14,4 +14,6 @@ export type StopReasonsLineProps = {
   onPress(): void;
 };
 
-export type StopReasonsContentProps = {children: React.ReactNode};
+export type StopReasonsContentProps = {
+  children: React.ReactNode;
+};
