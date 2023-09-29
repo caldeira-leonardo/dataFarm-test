@@ -9,10 +9,4 @@ export type TextProps = {
   captalize?: boolean;
 } & import('react-native').TextProps;
 
-type VariantProps =
-  | 'large'
-  | 'title'
-  | 'subtitle'
-  | 'normal'
-  | 'small'
-  | 'extraSmall';
+type VariantProps = keyof typeof Theme.sizes;

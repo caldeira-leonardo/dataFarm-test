@@ -27,13 +27,11 @@ export const Icon = styled.View`
 `;
 export const Descriptions = styled.View`
   margin-left: ${Theme.spacings.small}px;
-  width: 50%;
 `;
 
 export const Time = styled.View`
   margin-left: ${Theme.spacings.small}px;
-  width: fit-content;
-  position: fixed;
+  padding: 5px 0;
   right: 0;
-  background-color: #ff0;
+  align-items: flex-end;
 `;

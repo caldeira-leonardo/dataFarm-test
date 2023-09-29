@@ -8,6 +8,7 @@ import {Theme} from '../../Theme/Theme';
 import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
 import SyncData from '../../Pages/SyncData/containers/SyncData';
+import {Dimensions} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,9 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 }
 
 export default function LoguedTabs() {
+  const windowWidth = Dimensions.get('window').width;
+  const headerTitleFontSize = windowWidth > 400 ? 24 : 20;
+
   return (
     <Tab.Navigator
       initialRouteName="Historico"
@@ -32,7 +36,7 @@ export default function LoguedTabs() {
         headerLeft: BackButton,
         tabBarShowLabel: false,
         headerTitleStyle: {
-          fontSize: 26,
+          fontSize: headerTitleFontSize,
         },
         tabBarActiveTintColor: Theme.colors.primary,
       }}>

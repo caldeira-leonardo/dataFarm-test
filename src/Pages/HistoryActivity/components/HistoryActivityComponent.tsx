@@ -5,6 +5,7 @@ import {HistoryDataProps} from '../Types/HistoryActivityTypes';
 import {Path, Svg} from 'react-native-svg';
 import {Dimensions} from 'react-native';
 import {Theme} from '../../../Theme/Theme';
+import moment from 'moment';
 
 type HistoryActivityComponentProps = {
   dataToShow: HistoryDataProps[];
@@ -15,11 +16,17 @@ const HistoryActivityComponent = ({
 }: HistoryActivityComponentProps) => {
   const windowWidth = Dimensions.get('window').width;
   const proportion = windowWidth / 12;
+  const timerWrapperSize =
+    windowWidth < 400 ? windowWidth * 0.58 : windowWidth * 0.62;
+
+  console.log('windowWidth', windowWidth); // remove logs
 
   return (
     <S.Wrapper>
       <S.Content>
         {dataToShow?.map(item => {
+          const formatedTime = moment(item.time).format('DD/MM/YYYY');
+          const formatedHour = moment(item.time).format('h:mm a');
           return (
             <S.ItemWrapper key={item.id}>
               <S.Icon>
@@ -32,7 +39,10 @@ const HistoryActivityComponent = ({
                   />
                 </Svg>
               </S.Icon>
-              <S.Descriptions style={{width: windowWidth * 0.53}}>
+              <S.Descriptions
+                style={{
+                  width: timerWrapperSize,
+                }}>
                 <Text numberOfLines={1} color="textSecondary" bold>
                   {item.title}
                 </Text>
@@ -41,7 +51,12 @@ const HistoryActivityComponent = ({
                 </Text>
               </S.Descriptions>
               <S.Time>
-                <Text variant="extraSmall">{item.time}</Text>
+                <Text variant="smallest" numberOfLines={2}>
+                  {formatedTime}
+                </Text>
+                <Text variant="smallest" numberOfLines={2}>
+                  {formatedHour}
+                </Text>
               </S.Time>
             </S.ItemWrapper>
           );
