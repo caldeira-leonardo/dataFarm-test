@@ -7,6 +7,7 @@ import BackButton from '../../components/elements/BackButton/BackButton';
 import {Theme} from '../../Theme/Theme';
 import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
+import SyncData from '../../Pages/SyncData/containers/SyncData';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,9 +54,8 @@ export default function LoguedTabs() {
       />
       <Tab.Screen
         name="Sincronizar"
-        component={StopRecord}
+        component={SyncData}
         options={{
-          tabBarBadge: '',
           tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),
         }}
       />

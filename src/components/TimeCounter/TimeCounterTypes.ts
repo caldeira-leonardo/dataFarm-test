@@ -1,6 +1,6 @@
 export type TimeCounterProps = {
   onPress(newValue: number): void;
-  value: number;
+  value?: number;
   onError?: boolean;
 };
 

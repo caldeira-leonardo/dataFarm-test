@@ -13,6 +13,7 @@ import uuid from 'react-native-uuid';
 import Local from '@react-native-community/geolocation';
 import {postStopRegister} from '../../../Services/Stop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 
 const StopRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,27 +43,49 @@ const StopRecord = () => {
 
   async function sendData(dataToSend: StopData, userToken: string) {
     try {
-      const resp = await postStopRegister(dataToSend, userToken);
-      console.log('dataToSend', dataToSend); // remove logs
+      console.log('userToken', userToken); // remove logs
+      const phoneIsConected = await isPhoneConnected();
 
-      console.log('resp', resp); // remove logs
-      // if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
-      //   const dataToSave = {
-      //     idFarm: dataToSend.idFarm,
-      //     idReason: dataToSend.idReason,
-      //     time: +new Date(),
-      //   };
-      //   const oldHistory = await AsyncStorage.getItem('recordHistory');
-      //   let newHistory: RecordHistoryProp[] = [];
-      //   if (oldHistory !== null && typeof oldHistory === 'object') {
-      //     newHistory = [...oldHistory, dataToSave];
-      //   }
-      //   newHistory.push(dataToSave);
-      //   await AsyncStorage.setItem('recordHistory', JSON.stringify(newHistory));
-      // }
+      if (!phoneIsConected) {
+        // const resp = await postStopRegister(dataToSend, userToken);
+        // console.log('resp', resp); // remove logs
+        console.log('dataToSend', dataToSend); // remove logs
+
+        const resp = true;
+        // if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
+        if (resp) {
+          const dataToSave = {
+            idFarm: dataToSend.idFarm,
+            idReason: dataToSend.idReason,
+            time: +new Date(),
+          };
+          const oldHistory = await AsyncStorage.getItem('recordHistory');
+          let newHistory: RecordHistoryProp[] = [];
+          if (oldHistory !== null && typeof oldHistory === 'object') {
+            newHistory = [...oldHistory, dataToSave];
+          }
+          newHistory.push(dataToSave);
+          await AsyncStorage.setItem(
+            'recordHistory',
+            JSON.stringify(newHistory),
+          );
+        }
+      } else {
+        const savedDataToFetch = await AsyncStorage.getItem('dataToFetch');
+
+        let dataTosave: any[] = [];
+        if (savedDataToFetch !== null) {
+          const parceSavedData = JSON.parse(savedDataToFetch);
+          dataTosave = [...parceSavedData];
+        }
+
+        await AsyncStorage.setItem(
+          'dataToFetch',
+          JSON.stringify([...dataTosave, dataToSend]),
+        );
+      }
     } catch (e) {
       console.log('error updating', e);
-      // salvar dados para sincronizar depois
     } finally {
       setIsLoading(false);
     }
@@ -102,6 +125,16 @@ const StopRecord = () => {
         maximumAge: 1000,
       },
     );
+  }
+
+  async function isPhoneConnected(): Promise<boolean | null> {
+    return await NetInfo.fetch().then(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      console.log('Is connected?', state.isInternetReachable);
+
+      return state.isInternetReachable;
+    });
   }
 
   useEffect(() => {

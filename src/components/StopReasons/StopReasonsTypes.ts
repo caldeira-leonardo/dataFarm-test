@@ -9,7 +9,6 @@ export type StopReasonsProps = {
 export type StopReasonsLineProps = {
   description: string;
   iconPath: string;
-  id: string | number;
   isSelected: boolean;
   onPress(): void;
 };

@@ -18,7 +18,7 @@ import Button from '../../../components/elements/Button/Button';
 import TimeCounter from '../../../components/TimeCounter/TimeCounter';
 import Select from '../../../components/elements/Select/Select';
 import Text from '../../../components/elements/Text/Text';
-import {KeyboardAvoidingView} from 'react-native';
+import {KeyboardAvoidingView, View} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Shape} from '../../../components/elements/YupShape/YupShape';
@@ -51,7 +51,8 @@ StopRecordComponentProps) => {
     <S.Wrapper>
       <Formik
         initialValues={initialValues}
-        validateOnChange={true}
+        validateOnBlur={false}
+        validateOnChange={false}
         validationSchema={Yup.object().shape<Shape<InitialValuesProps>>({
           machinerie: Yup.object().shape<Shape<ValueProps>>({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
@@ -68,12 +69,15 @@ StopRecordComponentProps) => {
           stopNote: Yup.string(),
           timer: Yup.number().required().moreThan(0, 'Campo obrigatório'),
         })}
-        onSubmit={values => {
+        onSubmit={(values, {resetForm, validateForm}) => {
+          validateForm();
+          console.log('passou do validate'); // remove logs
           onClickSubmit(values);
           Keyboard.dismiss();
+          resetForm();
         }}>
-        {({handleSubmit, values, errors, setFieldValue, validateField}) => {
-          // console.log('errors', errors); // remove logs
+        {({handleSubmit, values, errors, setFieldValue, setFieldError}) => {
+          // console.log('values', values); // remove logs
 
           return (
             <>
@@ -95,7 +99,7 @@ StopRecordComponentProps) => {
                       }))}
                       onChangeValue={value => {
                         setFieldValue('machinerie', value);
-                        validateField('machinerie');
+                        setFieldError('machinerie', undefined);
                       }}
                     />
                   </S.EquipmentContent>
@@ -116,7 +120,7 @@ StopRecordComponentProps) => {
                         onChangeValue={value => {
                           setFieldValue('farm', value);
                           handleSelectFarm(value);
-                          validateField('farm');
+                          setFieldError('farm', undefined);
                         }}
                       />
                     </S.Farm>
@@ -137,7 +141,7 @@ StopRecordComponentProps) => {
                         }))}
                         onChangeValue={value => {
                           setFieldValue('fieldOption', value);
-                          validateField('fieldOption');
+                          setFieldError('fieldOption', undefined);
                         }}
                       />
                     </S.Field>
@@ -147,24 +151,25 @@ StopRecordComponentProps) => {
                     <StopReasonsContent>
                       {reasons?.map(reason => {
                         return (
-                          <StopReasonsLine
-                            // adicionar um skeleton aqui Quando não possuir nada no estado
-                            description={reason.name}
-                            iconPath={reason.icon}
-                            id={reason.id}
-                            isSelected={
-                              values.stopReason
-                                ? reason.id === values.stopReason?.key
-                                : false
-                            }
-                            onPress={() => {
-                              setFieldValue('stopReason', {
-                                description: reason.name,
-                                key: reason.id,
-                              });
-                              validateField('stopReason');
-                            }}
-                          />
+                          <View key={reason.icon}>
+                            <StopReasonsLine
+                              // adicionar um skeleton aqui Quando não possuir nada no estado
+                              description={reason.name}
+                              iconPath={reason.icon}
+                              isSelected={
+                                values.stopReason
+                                  ? reason.id === values.stopReason?.key
+                                  : false
+                              }
+                              onPress={() => {
+                                setFieldValue('stopReason', {
+                                  description: reason.name,
+                                  key: reason.id,
+                                });
+                                setFieldError('stopReason', undefined);
+                              }}
+                            />
+                          </View>
                         );
                       })}
                     </StopReasonsContent>
@@ -186,9 +191,10 @@ StopRecordComponentProps) => {
                     <Input
                       numberOfLines={3}
                       multiline
+                      value={values.stopNote}
                       onChangeText={value => {
                         setFieldValue('stopNote', value);
-                        validateField('stopNote');
+                        setFieldError('stopNote', undefined);
                       }}
                     />
                   </S.NoteContent>
@@ -201,8 +207,9 @@ StopRecordComponentProps) => {
                       onPress={value => {
                         setFieldValue('timer', value);
                         Keyboard.dismiss();
+                        setFieldError('timer', undefined);
                       }}
-                      value={values?.timer ?? 0}
+                      value={values?.timer}
                       onError={!!errors.timer}
                     />
                   </S.ButtonContent>

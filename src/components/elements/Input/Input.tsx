@@ -6,13 +6,14 @@ import {Eye, EyeOff} from 'react-native-feather';
 import {Theme} from '../../../Theme/Theme';
 
 export default function Input(props: InputProps) {
-  const {errorMessage, hasError, type = 'text'} = props;
+  const {errorMessage, hasError, type = 'text', value} = props;
   const [showPassword, setShowPassword] = useState(type === 'password');
   return (
     <S.Wrapper>
       <S.Content {...props}>
         <S.Input
           {...props}
+          value={value}
           secureTextEntry={showPassword}
           textAlignVertical="top"
         />

@@ -8,13 +8,12 @@ import {Theme} from '../../Theme/Theme';
 const StopReasonsLine = ({
   description,
   iconPath,
-  id,
   isSelected = false,
   onPress,
 }: StopReasonsLineProps) => {
   return (
-    <S.Line key={id} aria-selected={isSelected} onPress={onPress}>
-      <S.Icon key={id + iconPath}>
+    <S.Line aria-selected={isSelected} onPress={onPress}>
+      <S.Icon>
         <Svg width={30} height={30}>
           <Path
             scaleX={0.03}
@@ -24,9 +23,7 @@ const StopReasonsLine = ({
           />
         </Svg>
       </S.Icon>
-      <Text color="textSecondary" key={id + description}>
-        {description}
-      </Text>
+      <Text color="textSecondary">{description}</Text>
     </S.Line>
   );
 };

@@ -5,7 +5,7 @@ import * as S from './TimeCounterStyles';
 import {Theme} from '../../Theme/Theme';
 import {TimeCounterProps} from './TimeCounterTypes';
 
-const TimeCounter = ({onPress, value, onError}: TimeCounterProps) => {
+const TimeCounter = ({onPress, value = 0, onError}: TimeCounterProps) => {
   const iconsColor = useMemo(() => {
     if (onError) {
       return Theme.colors.error;
