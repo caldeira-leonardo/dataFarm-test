@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import LoginComponent from '../components/LoginComponent';
 import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();
-  const {updateUserToken} = useUser();
+  const {updateUserToken, user} = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(data: {email: string; senha: string}) {
@@ -18,40 +18,45 @@ const Login = (props: LoginProps) => {
 
       updateUserToken(resp.data.token);
 
-      navigation?.reset({
-        index: 0,
-        routes: [{name: 'Main'}],
-      });
       AsyncStorage.setItem('token', JSON.stringify(resp.data.token));
       AsyncStorage.setItem('keepLoguedIn', JSON.stringify(true));
 
       setIsLoading(false);
+
+      navigation?.reset({
+        index: 0,
+        routes: [{name: 'Main'}],
+      });
     } catch (e) {
       console.log('error updating', e);
     } finally {
     }
   }
 
-  (async function verifyLogin() {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
+  const verifyLogin = useCallback(async () => {
+    if (!user?.token) {
+      try {
+        const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
+        const token = await AsyncStorage.getItem('token');
 
-      if (token !== null) {
-        updateUserToken(token);
+        if (token !== null) {
+          updateUserToken(JSON.parse(token));
+        }
+        if (keepLogin !== null && JSON.parse(keepLogin) === true) {
+          navigation?.reset({
+            index: 0,
+            routes: [{name: 'Main'}],
+          });
+        }
+      } catch (e) {
+        console.log('error updating', e);
       }
-      if (keepLogin !== null) {
-        navigation?.reset({
-          index: 0,
-          routes: [{name: 'Main'}],
-        });
-      }
-    } catch (e) {
-      console.log('error updating', e);
-    } finally {
     }
-  })();
-  console.log('aqui'); // remove logs
+  }, [navigation, updateUserToken, user]);
+
+  useEffect(() => {
+    verifyLogin();
+  }, [verifyLogin]);
 
   return <LoginComponent {...props} {...{onSubmit, isLoading}} />;
 };

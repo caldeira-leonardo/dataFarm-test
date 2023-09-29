@@ -26,6 +26,7 @@ export default async function customFetch(
   };
 
   try {
+    console.log('finalURL', finalURL); // remove logs
     response = await fetch(finalURL, {
       method,
       body: bodyReq ? JSON.stringify(newBodyReq) : null,

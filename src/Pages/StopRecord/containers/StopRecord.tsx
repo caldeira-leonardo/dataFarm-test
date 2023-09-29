@@ -25,9 +25,11 @@ const StopRecord = () => {
       setIsFetching(true);
       if (user?.token) {
         const {data} = await getResources(user?.token);
-        setMachineries(data.resources.machineries);
-        setFarms(data.resources.farms);
-        setReasons([...data.resources.reasons]);
+        if (data) {
+          setMachineries(data.resources?.machineries);
+          setFarms(data.resources?.farms);
+          setReasons([...data.resources?.reasons]);
+        }
       }
     } catch (e) {
       console.log('error updating', e);

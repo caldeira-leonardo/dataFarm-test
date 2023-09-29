@@ -4,6 +4,7 @@ import {useNavigation} from '../../../Context/navigationContext';
 import {LogOut} from 'react-native-feather';
 import * as S from './LogoutButtonStyles';
 import {Theme} from '../../../Theme/Theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LogoutButton() {
   const navigation = useNavigation();
@@ -11,6 +12,9 @@ function LogoutButton() {
 
   function onPress() {
     logout();
+
+    AsyncStorage.clear();
+
     navigation?.reset({
       index: 0,
       routes: [{name: 'Login'}],

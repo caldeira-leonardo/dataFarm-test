@@ -1,9 +1,9 @@
 import {BASE_URL} from './baseURL';
 
-const MACHINE = 'mobile/machine/';
+// const MACHINE = ;
 
 export const endpoints = {
   login: BASE_URL + 'api/auth/v2',
-  resources: BASE_URL + MACHINE + 'resources',
-  sendStop: BASE_URL + MACHINE + 'stop-register/registry',
+  resources: BASE_URL + 'mobile/machine/resources',
+  sendStop: BASE_URL + 'mobile/machine/stop-register/registry',
 };
