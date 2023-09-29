@@ -15,6 +15,7 @@ const HistoryActivity = () => {
   const isFocused = useIsFocused();
   const {user} = useUser();
   const [dataToShow, setDataToShow] = useState<HistoryDataProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUserHistoryData = useCallback(async () => {
     const userHystoryData: any = await AsyncStorage.getItem('recordHistory');
@@ -29,6 +30,7 @@ const HistoryActivity = () => {
 
   const fetchResourcesData = useCallback(async () => {
     try {
+      setIsLoading(true);
       if (user?.token) {
         const {data} = await getResources(user?.token);
         if (data) {
@@ -64,6 +66,7 @@ const HistoryActivity = () => {
     } catch (e) {
       console.log('error updating', e);
     } finally {
+      setIsLoading(false);
     }
   }, [user?.token, getUserHistoryData]);
 
@@ -73,7 +76,7 @@ const HistoryActivity = () => {
     }
   }, [fetchResourcesData, isFocused]);
 
-  return <HistoryActivityComponent {...{dataToShow}} />;
+  return <HistoryActivityComponent {...{dataToShow, isLoading}} />;
 };
 
 export default HistoryActivity;
