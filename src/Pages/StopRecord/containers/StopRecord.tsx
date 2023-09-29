@@ -88,6 +88,7 @@ const StopRecord = () => {
   useEffect(() => {
     fetchResourcesData();
   }, [fetchResourcesData]);
+
   return (
     <StopRecordComponent
       {...{isLoading, machineries, farms, reasons, submit, isFetching}}

@@ -4,6 +4,7 @@ import {useUser} from '../../../Context/userContext';
 import {useNavigation} from '../../../Context/navigationContext';
 import {LoginProps} from '../types/LoginTypes';
 import {LoginService} from '../../../Services/User';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();
@@ -21,12 +22,36 @@ const Login = (props: LoginProps) => {
         index: 0,
         routes: [{name: 'Main'}],
       });
+      AsyncStorage.setItem('token', JSON.stringify(resp.data.token));
+      AsyncStorage.setItem('keepLoguedIn', JSON.stringify(true));
+
       setIsLoading(false);
     } catch (e) {
       console.log('error updating', e);
     } finally {
     }
   }
+
+  (async function verifyLogin() {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
+
+      if (token !== null) {
+        updateUserToken(token);
+      }
+      if (keepLogin !== null) {
+        navigation?.reset({
+          index: 0,
+          routes: [{name: 'Main'}],
+        });
+      }
+    } catch (e) {
+      console.log('error updating', e);
+    } finally {
+    }
+  })();
+  console.log('aqui'); // remove logs
 
   return <LoginComponent {...props} {...{onSubmit, isLoading}} />;
 };

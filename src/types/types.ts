@@ -10,4 +10,5 @@ export type RootStackParamList = {
   Home: undefined;
   Settings: undefined;
   Sincronizar: undefined;
+  loading: undefined;
 };
