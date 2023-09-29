@@ -6,12 +6,11 @@ import {useIsFocused} from '@react-navigation/native';
 const SyncData = () => {
   const isFocused = useIsFocused();
   const [hasDataToFetch, setHasDataToFetch] = useState<any[]>([]);
+
   const searchDataToFetch = useCallback(async () => {
     const dataToFetch = await AsyncStorage.getItem('dataToFetch');
 
-    console.log('dataToFetch', dataToFetch); // remove logs
     if (dataToFetch !== null) {
-      console.log('dataToFetch', dataToFetch); // remove logs
       setHasDataToFetch(JSON.parse(dataToFetch));
     }
   }, []);
@@ -24,8 +23,7 @@ const SyncData = () => {
 
   useEffect(() => {
     if (hasDataToFetch) {
-      //fetch data
-      console.log('hasDataToFetch', hasDataToFetch); // remove logs
+      console.log('Enviar dados para o backend'); // remove logs
     }
   }, [hasDataToFetch]);
 

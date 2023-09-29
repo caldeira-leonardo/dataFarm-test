@@ -43,46 +43,22 @@ const StopRecord = () => {
 
   async function sendData(dataToSend: StopData, userToken: string) {
     try {
-      console.log('userToken', userToken); // remove logs
       const phoneIsConected = await isPhoneConnected();
 
       if (!phoneIsConected) {
-        // const resp = await postStopRegister(dataToSend, userToken);
-        // console.log('resp', resp); // remove logs
-        console.log('dataToSend', dataToSend); // remove logs
+        const resp = await postStopRegister(dataToSend, userToken);
 
-        const resp = true;
-        // if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
-        if (resp) {
+        if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
           const dataToSave = {
             idFarm: dataToSend.idFarm,
             idReason: dataToSend.idReason,
             time: +new Date(),
           };
-          const oldHistory = await AsyncStorage.getItem('recordHistory');
-          let newHistory: RecordHistoryProp[] = [];
-          if (oldHistory !== null && typeof oldHistory === 'object') {
-            newHistory = [...oldHistory, dataToSave];
-          }
-          newHistory.push(dataToSave);
-          await AsyncStorage.setItem(
-            'recordHistory',
-            JSON.stringify(newHistory),
-          );
+
+          await handleFormatData('recordHistory', dataToSave);
         }
       } else {
-        const savedDataToFetch = await AsyncStorage.getItem('dataToFetch');
-
-        let dataTosave: any[] = [];
-        if (savedDataToFetch !== null) {
-          const parceSavedData = JSON.parse(savedDataToFetch);
-          dataTosave = [...parceSavedData];
-        }
-
-        await AsyncStorage.setItem(
-          'dataToFetch',
-          JSON.stringify([...dataTosave, dataToSend]),
-        );
+        await handleFormatData('dataToFetch', dataToSend);
       }
     } catch (e) {
       console.log('error updating', e);
@@ -129,10 +105,6 @@ const StopRecord = () => {
 
   async function isPhoneConnected(): Promise<boolean | null> {
     return await NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-      console.log('Is connected?', state.isInternetReachable);
-
       return state.isInternetReachable;
     });
   }
@@ -149,3 +121,23 @@ const StopRecord = () => {
 };
 
 export default StopRecord;
+
+async function handleFormatData(
+  storageName: string,
+  dataToAdd: StopData | RecordHistoryProp,
+) {
+  AsyncStorage.removeItem('storageName');
+  const storageItem = await AsyncStorage.getItem(storageName);
+
+  let newItem: any[] = [];
+
+  if (storageItem !== null) {
+    const parceItem = JSON.parse(storageItem);
+    newItem = [...parceItem];
+  }
+
+  await AsyncStorage.setItem(
+    storageName,
+    JSON.stringify([...newItem, dataToAdd]),
+  );
+}

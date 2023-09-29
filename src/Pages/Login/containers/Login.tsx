@@ -36,6 +36,7 @@ const Login = (props: LoginProps) => {
   const verifyLogin = useCallback(async () => {
     if (!user?.token) {
       try {
+        setIsLoading(false);
         const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
         const token = await AsyncStorage.getItem('token');
 
@@ -50,6 +51,8 @@ const Login = (props: LoginProps) => {
         }
       } catch (e) {
         console.log('error updating', e);
+      } finally {
+        setIsLoading(false);
       }
     }
   }, [navigation, updateUserToken, user]);

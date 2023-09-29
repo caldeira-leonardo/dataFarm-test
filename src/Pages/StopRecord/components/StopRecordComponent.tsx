@@ -71,160 +71,156 @@ StopRecordComponentProps) => {
         })}
         onSubmit={(values, {resetForm, validateForm}) => {
           validateForm();
-          console.log('passou do validate'); // remove logs
           onClickSubmit(values);
           Keyboard.dismiss();
           resetForm();
+          setFieldOptions([]);
         }}>
-        {({handleSubmit, values, errors, setFieldValue, setFieldError}) => {
-          // console.log('values', values); // remove logs
-
-          return (
-            <>
-              <S.Content>
-                <KeyboardAvoidingView>
-                  <S.EquipmentContent>
+        {({handleSubmit, values, errors, setFieldValue, setFieldError}) => (
+          <>
+            <S.Content>
+              <KeyboardAvoidingView>
+                <S.EquipmentContent>
+                  <Text color="secondaryDark" bold variant="small">
+                    Equipamento
+                  </Text>
+                  <Select
+                    placeholder="Select"
+                    value={values?.machinerie}
+                    hasError={!!errors?.machinerie?.key}
+                    errorMessage={errors?.machinerie && errors.machinerie.key}
+                    options={machineries.map(machinerie => ({
+                      value: machinerie?.name,
+                      key: machinerie?.id,
+                      subtitle: machinerie?.serialNumber,
+                    }))}
+                    onChangeValue={value => {
+                      setFieldValue('machinerie', value);
+                      setFieldError('machinerie', undefined);
+                    }}
+                  />
+                </S.EquipmentContent>
+                <S.FarmFirldGroup>
+                  <S.Farm>
                     <Text color="secondaryDark" bold variant="small">
-                      Equipamento
+                      Fazenda
                     </Text>
                     <Select
                       placeholder="Select"
-                      value={values?.machinerie}
-                      hasError={!!errors?.machinerie?.key}
-                      errorMessage={errors?.machinerie && errors.machinerie.key}
-                      options={machineries.map(machinerie => ({
-                        value: machinerie?.name,
-                        key: machinerie?.id,
-                        subtitle: machinerie?.serialNumber,
+                      value={values?.farm}
+                      hasError={!!errors.farm}
+                      errorMessage={errors.farm ? errors.farm.key : ''}
+                      options={farms.map(farm => ({
+                        value: farm?.name,
+                        key: farm?.id,
                       }))}
                       onChangeValue={value => {
-                        setFieldValue('machinerie', value);
-                        setFieldError('machinerie', undefined);
+                        setFieldValue('farm', value);
+                        handleSelectFarm(value);
+                        setFieldError('farm', undefined);
                       }}
                     />
-                  </S.EquipmentContent>
-                  <S.FarmFirldGroup>
-                    <S.Farm>
-                      <Text color="secondaryDark" bold variant="small">
-                        Fazenda
+                  </S.Farm>
+                  <S.Field>
+                    <Text color="secondaryDark" bold variant="small">
+                      Talhão
+                    </Text>
+                    <Select
+                      placeholder="Select"
+                      value={values?.fieldOption}
+                      hasError={!!errors.fieldOption}
+                      errorMessage={
+                        errors?.fieldOption ? errors?.fieldOption.key : ''
+                      }
+                      options={fieldOptions.map(fieldOption => ({
+                        value: fieldOption?.name,
+                        key: fieldOption?.id,
+                      }))}
+                      onChangeValue={value => {
+                        setFieldValue('fieldOption', value);
+                        setFieldError('fieldOption', undefined);
+                      }}
+                    />
+                  </S.Field>
+                </S.FarmFirldGroup>
+                <StopReasons>
+                  <StopReasonsTitle>Motivo da Parada</StopReasonsTitle>
+                  <StopReasonsContent>
+                    {reasons?.map(reason => {
+                      return (
+                        <View key={reason.icon}>
+                          <StopReasonsLine
+                            // TODO adicionar um skeleton aqui Quando não possuir nada no estado
+                            description={reason.name}
+                            iconPath={reason.icon}
+                            isSelected={
+                              values.stopReason
+                                ? reason.id === values.stopReason?.key
+                                : false
+                            }
+                            onPress={() => {
+                              setFieldValue('stopReason', {
+                                description: reason.name,
+                                key: reason.id,
+                              });
+                              setFieldError('stopReason', undefined);
+                            }}
+                          />
+                        </View>
+                      );
+                    })}
+                  </StopReasonsContent>
+                  <>
+                    {!!errors.stopReason && (
+                      <Text color="error" bold>
+                        <>{errors.stopReason.key}</>
                       </Text>
-                      <Select
-                        placeholder="Select"
-                        value={values?.farm}
-                        hasError={!!errors.farm}
-                        errorMessage={errors.farm ? errors.farm.key : ''}
-                        options={farms.map(farm => ({
-                          value: farm?.name,
-                          key: farm?.id,
-                        }))}
-                        onChangeValue={value => {
-                          setFieldValue('farm', value);
-                          handleSelectFarm(value);
-                          setFieldError('farm', undefined);
-                        }}
-                      />
-                    </S.Farm>
-                    <S.Field>
-                      <Text color="secondaryDark" bold variant="small">
-                        Talhão
-                      </Text>
-                      <Select
-                        placeholder="Select"
-                        value={values?.fieldOption}
-                        hasError={!!errors.fieldOption}
-                        errorMessage={
-                          errors?.fieldOption ? errors?.fieldOption.key : ''
-                        }
-                        options={fieldOptions.map(fieldOption => ({
-                          value: fieldOption?.name,
-                          key: fieldOption?.id,
-                        }))}
-                        onChangeValue={value => {
-                          setFieldValue('fieldOption', value);
-                          setFieldError('fieldOption', undefined);
-                        }}
-                      />
-                    </S.Field>
-                  </S.FarmFirldGroup>
-                  <StopReasons>
-                    <StopReasonsTitle>Motivo da Parada</StopReasonsTitle>
-                    <StopReasonsContent>
-                      {reasons?.map(reason => {
-                        return (
-                          <View key={reason.icon}>
-                            <StopReasonsLine
-                              // adicionar um skeleton aqui Quando não possuir nada no estado
-                              description={reason.name}
-                              iconPath={reason.icon}
-                              isSelected={
-                                values.stopReason
-                                  ? reason.id === values.stopReason?.key
-                                  : false
-                              }
-                              onPress={() => {
-                                setFieldValue('stopReason', {
-                                  description: reason.name,
-                                  key: reason.id,
-                                });
-                                setFieldError('stopReason', undefined);
-                              }}
-                            />
-                          </View>
-                        );
-                      })}
-                    </StopReasonsContent>
-                    <>
-                      {!!errors.stopReason && (
-                        <Text color="error" bold>
-                          <>{errors.stopReason.key}</>
-                        </Text>
-                      )}
-                    </>
-                  </StopReasons>
+                    )}
+                  </>
+                </StopReasons>
 
-                  <S.NoteContent>
-                    <S.NoteTitle>
-                      <Edit color={Theme.colors.icon} />
-                      <S.Title color="title">Nota de parada</S.Title>
-                    </S.NoteTitle>
+                <S.NoteContent>
+                  <S.NoteTitle>
+                    <Edit color={Theme.colors.icon} />
+                    <S.Title color="title">Nota de parada</S.Title>
+                  </S.NoteTitle>
 
-                    <Input
-                      numberOfLines={3}
-                      multiline
-                      value={values.stopNote}
-                      onChangeText={value => {
-                        setFieldValue('stopNote', value);
-                        setFieldError('stopNote', undefined);
-                      }}
-                    />
-                  </S.NoteContent>
-                </KeyboardAvoidingView>
-              </S.Content>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <S.ButtonsWrapper>
-                  <S.ButtonContent>
-                    <TimeCounter
-                      onPress={value => {
-                        setFieldValue('timer', value);
-                        Keyboard.dismiss();
-                        setFieldError('timer', undefined);
-                      }}
-                      value={values?.timer}
-                      onError={!!errors.timer}
-                    />
-                  </S.ButtonContent>
-                  <S.ButtonContent>
-                    <Button
-                      onPress={() => handleSubmit()}
-                      title="salvar"
-                      isLoading={isLoading}
-                    />
-                  </S.ButtonContent>
-                </S.ButtonsWrapper>
-              </TouchableWithoutFeedback>
-            </>
-          );
-        }}
+                  <Input
+                    numberOfLines={3}
+                    multiline
+                    value={values.stopNote}
+                    onChangeText={value => {
+                      setFieldValue('stopNote', value);
+                      setFieldError('stopNote', undefined);
+                    }}
+                  />
+                </S.NoteContent>
+              </KeyboardAvoidingView>
+            </S.Content>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <S.ButtonsWrapper>
+                <S.ButtonContent>
+                  <TimeCounter
+                    onPress={value => {
+                      setFieldValue('timer', value);
+                      Keyboard.dismiss();
+                      setFieldError('timer', undefined);
+                    }}
+                    value={values?.timer}
+                    onError={!!errors.timer}
+                  />
+                </S.ButtonContent>
+                <S.ButtonContent>
+                  <Button
+                    onPress={() => handleSubmit()}
+                    title="salvar"
+                    isLoading={isLoading}
+                  />
+                </S.ButtonContent>
+              </S.ButtonsWrapper>
+            </TouchableWithoutFeedback>
+          </>
+        )}
       </Formik>
     </S.Wrapper>
   );

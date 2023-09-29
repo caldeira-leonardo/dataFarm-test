@@ -10,10 +10,10 @@ function LogoutButton() {
   const navigation = useNavigation();
   const {logout} = useUser();
 
-  function onPress() {
+  async function onPress() {
     logout();
 
-    AsyncStorage.clear();
+    AsyncStorage.setItem('keepLoguedIn', JSON.stringify(false));
 
     navigation?.reset({
       index: 0,
