@@ -52,3 +52,9 @@ export type StopData = {
   longitude: number | string;
   latitude: number | string;
 };
+
+export type RecordHistoryProp = {
+  idFarm: number;
+  idReason: number;
+  time: number;
+};

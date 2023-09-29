@@ -24,6 +24,8 @@ import * as Yup from 'yup';
 import {Shape} from '../../../components/elements/YupShape/YupShape';
 import {ValueProps} from '../../../components/elements/Select/SelectTypes';
 import {initialValues} from './StopRecordSchemas';
+import {Keyboard} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 
 const StopRecordComponent = ({
   reasons,
@@ -68,6 +70,7 @@ StopRecordComponentProps) => {
         })}
         onSubmit={values => {
           onClickSubmit(values);
+          Keyboard.dismiss();
         }}>
         {({handleSubmit, values, errors, setFieldValue, validateField}) => {
           // console.log('errors', errors); // remove logs
@@ -191,23 +194,27 @@ StopRecordComponentProps) => {
                   </S.NoteContent>
                 </KeyboardAvoidingView>
               </S.Content>
-
-              <S.ButtonsWrapper>
-                <S.ButtonContent>
-                  <TimeCounter
-                    onPress={value => setFieldValue('timer', value)}
-                    value={values?.timer ?? 0}
-                    onError={!!errors.timer}
-                  />
-                </S.ButtonContent>
-                <S.ButtonContent>
-                  <Button
-                    onPress={() => handleSubmit()}
-                    title="salvar"
-                    isLoading={isLoading}
-                  />
-                </S.ButtonContent>
-              </S.ButtonsWrapper>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <S.ButtonsWrapper>
+                  <S.ButtonContent>
+                    <TimeCounter
+                      onPress={value => {
+                        setFieldValue('timer', value);
+                        Keyboard.dismiss();
+                      }}
+                      value={values?.timer ?? 0}
+                      onError={!!errors.timer}
+                    />
+                  </S.ButtonContent>
+                  <S.ButtonContent>
+                    <Button
+                      onPress={() => handleSubmit()}
+                      title="salvar"
+                      isLoading={isLoading}
+                    />
+                  </S.ButtonContent>
+                </S.ButtonsWrapper>
+              </TouchableWithoutFeedback>
             </>
           );
         }}

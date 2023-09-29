@@ -6,11 +6,13 @@ import {
   FarmsProps,
   MachineriesProps,
   ReasonsProps,
+  RecordHistoryProp,
   StopData,
 } from '../Types/StopRecordTypes';
 import uuid from 'react-native-uuid';
 import Local from '@react-native-community/geolocation';
 import {postStopRegister} from '../../../Services/Stop';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StopRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,8 +43,23 @@ const StopRecord = () => {
   async function sendData(dataToSend: StopData, userToken: string) {
     try {
       const resp = await postStopRegister(dataToSend, userToken);
+      console.log('dataToSend', dataToSend); // remove logs
 
       console.log('resp', resp); // remove logs
+      // if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
+      //   const dataToSave = {
+      //     idFarm: dataToSend.idFarm,
+      //     idReason: dataToSend.idReason,
+      //     time: +new Date(),
+      //   };
+      //   const oldHistory = await AsyncStorage.getItem('recordHistory');
+      //   let newHistory: RecordHistoryProp[] = [];
+      //   if (oldHistory !== null && typeof oldHistory === 'object') {
+      //     newHistory = [...oldHistory, dataToSave];
+      //   }
+      //   newHistory.push(dataToSave);
+      //   await AsyncStorage.setItem('recordHistory', JSON.stringify(newHistory));
+      // }
     } catch (e) {
       console.log('error updating', e);
       // salvar dados para sincronizar depois

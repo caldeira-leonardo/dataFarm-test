@@ -6,6 +6,7 @@ import LogoutButton from '../../components/elements/LogoutButton/LogoutButton';
 import BackButton from '../../components/elements/BackButton/BackButton';
 import {Theme} from '../../Theme/Theme';
 import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
+import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 export default function LoguedTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Registro de parada"
+      initialRouteName="Historico"
       backBehavior="history"
       screenOptions={{
         headerTitleAlign: 'center',
@@ -35,17 +36,19 @@ export default function LoguedTabs() {
         tabBarActiveTintColor: Theme.colors.primary,
       }}>
       <Tab.Screen
-        name="Registro de parada"
-        component={StopRecord}
+        name="Historico"
+        component={HistoryActivity}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'clock'}),
+          title: 'Histórico atividades',
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name="Registro"
         component={StopRecord}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'menu'}),
+          title: 'Registro parada',
         }}
       />
       <Tab.Screen
