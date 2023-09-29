@@ -2,9 +2,11 @@ import {ValueProps} from '../../../components/elements/Select/SelectTypes';
 
 export type StopRecordComponentProps = {
   isLoading: boolean;
+  isFetching: boolean;
   machineries: MachineriesProps[];
   farms: FarmsProps[];
   reasons: ReasonsProps[];
+  submit(data: any): void;
 };
 
 export type ReasonsProps = {
@@ -37,4 +39,16 @@ export type InitialValuesProps = {
   stopReason: ValueProps;
   stopNote?: string;
   timer?: number;
+};
+
+export type StopData = {
+  uuid: string | number[];
+  note?: string;
+  idFarm: number;
+  idField: number;
+  idReason: number;
+  idMachinery: number;
+  minutes: number;
+  longitude: number | string;
+  latitude: number | string;
 };

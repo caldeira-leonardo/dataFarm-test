@@ -6,10 +6,15 @@ import {
   FarmsProps,
   MachineriesProps,
   ReasonsProps,
+  StopData,
 } from '../Types/StopRecordTypes';
+import uuid from 'react-native-uuid';
+import Local from '@react-native-community/geolocation';
+import {postStopRegister} from '../../../Services/Stop';
 
 const StopRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [machineries, setMachineries] = useState<MachineriesProps[]>([]);
   const [farms, setFarms] = useState<FarmsProps[]>([]);
   const [reasons, setReasons] = useState<ReasonsProps[]>([]);
@@ -17,7 +22,7 @@ const StopRecord = () => {
 
   const fetchResourcesData = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setIsFetching(true);
       if (user?.token) {
         const {data} = await getResources(user?.token);
         setMachineries(data.resources.machineries);
@@ -27,14 +32,67 @@ const StopRecord = () => {
     } catch (e) {
       console.log('error updating', e);
     } finally {
-      setIsLoading(false);
+      setIsFetching(false);
     }
   }, [user?.token]);
+
+  async function sendData(dataToSend: StopData, userToken: string) {
+    try {
+      const resp = await postStopRegister(dataToSend, userToken);
+
+      console.log('resp', resp); // remove logs
+    } catch (e) {
+      console.log('error updating', e);
+      // salvar dados para sincronizar depois
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function submit(values: any) {
+    setIsLoading(true);
+    Local.getCurrentPosition(
+      pos => {
+        const {
+          coords: {latitude: lat, longitude: lon},
+        } = pos;
+
+        const dataToSend: StopData = {
+          uuid: uuid.v4(),
+          note: values?.stopNote,
+          idFarm: values.farm.key,
+          idField: values.fieldOption.key,
+          idReason: values.stopReason.key,
+          idMachinery: values.machinerie.key,
+          minutes: values.timer,
+          longitude: lon,
+          latitude: lat,
+        };
+        if (user?.token) {
+          sendData(dataToSend, user?.token);
+        }
+        setIsLoading(false);
+      },
+      err => {
+        console.log('Algo deu errado: ' + err.message);
+        setIsLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  }
 
   useEffect(() => {
     fetchResourcesData();
   }, [fetchResourcesData]);
-  return <StopRecordComponent {...{isLoading, machineries, farms, reasons}} />;
+  return (
+    <StopRecordComponent
+      {...{isLoading, machineries, farms, reasons, submit, isFetching}}
+    />
+  );
 };
 
 export default StopRecord;

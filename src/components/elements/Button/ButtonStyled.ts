@@ -8,7 +8,8 @@ export const Wrapper = styled.TouchableOpacity<ButtonProps>`
 `;
 
 export const Button = styled.View<ButtonProps>`
-  background-color: ${Theme.colors.primary};
+  background-color: ${props =>
+    props['aria-disabled'] ? Theme.colors.disabled : Theme.colors.primary};
   height: 55px;
   border-radius: 6px;
   justify-content: center;

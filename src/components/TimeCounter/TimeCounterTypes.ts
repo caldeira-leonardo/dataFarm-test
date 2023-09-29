@@ -3,3 +3,7 @@ export type TimeCounterProps = {
   value: number;
   onError?: boolean;
 };
+
+export type CounterProps = {
+  isLoading?: boolean;
+} & import('react-native').ViewProps;

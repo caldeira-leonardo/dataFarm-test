@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Text from '../elements/Text/Text';
 import {MinusCircle, PlusCircle} from 'react-native-feather';
 import * as S from './TimeCounterStyles';
@@ -6,20 +6,26 @@ import {Theme} from '../../Theme/Theme';
 import {TimeCounterProps} from './TimeCounterTypes';
 
 const TimeCounter = ({onPress, value, onError}: TimeCounterProps) => {
+  const iconsColor = useMemo(() => {
+    if (onError) {
+      return Theme.colors.error;
+    } else {
+      return Theme.colors.alert;
+    }
+  }, [onError]);
+
   return (
     <S.Wrapper>
       <MinusCircle
-        color={Theme.colors.alert}
+        color={iconsColor}
         fontSize={20}
         onPress={() => value > 0 && onPress(value - 5)}
       />
-      <S.Counter>
-        <Text
-          color={onError ? 'light' : 'error'}
-          bold={onError}>{`${value} min`}</Text>
+      <S.Counter aria-busy={onError}>
+        <Text color={'light'} bold>{`${value} min`}</Text>
       </S.Counter>
       <PlusCircle
-        color={Theme.colors.alert}
+        color={iconsColor}
         fontSize={20}
         onPress={() => onPress(value + 5)}
       />

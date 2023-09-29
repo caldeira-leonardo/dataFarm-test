@@ -23,16 +23,20 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Shape} from '../../../components/elements/YupShape/YupShape';
 import {ValueProps} from '../../../components/elements/Select/SelectTypes';
+import {initialValues} from './StopRecordSchemas';
 
 const StopRecordComponent = ({
   reasons,
   farms,
   machineries,
-}: StopRecordComponentProps) => {
+  submit,
+  isLoading,
+}: // isFetching,
+StopRecordComponentProps) => {
   const [fieldOptions, setFieldOptions] = useState<FarmFieldProps[]>([]);
 
-  function onSubmit(values: any) {
-    console.log('values', values); // remove logs
+  function onClickSubmit(values: any) {
+    submit(values);
   }
 
   function handleSelectFarm(item: any) {
@@ -60,10 +64,10 @@ const StopRecordComponent = ({
             key: Yup.number().moreThan(0, 'Campo obrigatório'),
           }),
           stopNote: Yup.string(),
-          timer: Yup.number(),
+          timer: Yup.number().required().moreThan(0, 'Campo obrigatório'),
         })}
         onSubmit={values => {
-          onSubmit(values);
+          onClickSubmit(values);
         }}>
         {({handleSubmit, values, errors, setFieldValue, validateField}) => {
           // console.log('errors', errors); // remove logs
@@ -193,11 +197,15 @@ const StopRecordComponent = ({
                   <TimeCounter
                     onPress={value => setFieldValue('timer', value)}
                     value={values?.timer ?? 0}
-                    onError={!errors.timer}
+                    onError={!!errors.timer}
                   />
                 </S.ButtonContent>
                 <S.ButtonContent>
-                  <Button onPress={() => handleSubmit()} title="salvar" />
+                  <Button
+                    onPress={() => handleSubmit()}
+                    title="salvar"
+                    isLoading={isLoading}
+                  />
                 </S.ButtonContent>
               </S.ButtonsWrapper>
             </>
@@ -209,23 +217,3 @@ const StopRecordComponent = ({
 };
 
 export default StopRecordComponent;
-
-const initialValues: InitialValuesProps = {
-  machinerie: {
-    key: -1,
-    value: '',
-  },
-  farm: {
-    key: -1,
-    value: '',
-  },
-  fieldOption: {
-    key: -1,
-    value: '',
-  },
-  stopReason: {
-    key: -1,
-    value: '',
-  },
-  stopNote: '',
-};
