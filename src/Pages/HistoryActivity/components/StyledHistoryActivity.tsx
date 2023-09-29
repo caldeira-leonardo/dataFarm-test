@@ -11,3 +11,29 @@ export const Wrapper = styled.View`
 export const Content = styled.ScrollView`
   padding: ${`0 ${Theme.spacings.base}px`};
 `;
+
+export const ItemWrapper = styled.View`
+  width: 100%;
+  padding: 5px 0;
+  flex-direction: row;
+  border-bottom-width: 2px;
+  border-bottom-color: ${Theme.colors.separator};
+  border-style: solid;
+`;
+
+export const Icon = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+export const Descriptions = styled.View`
+  margin-left: ${Theme.spacings.small}px;
+  width: 50%;
+`;
+
+export const Time = styled.View`
+  margin-left: ${Theme.spacings.small}px;
+  width: fit-content;
+  position: fixed;
+  right: 0;
+  background-color: #ff0;
+`;

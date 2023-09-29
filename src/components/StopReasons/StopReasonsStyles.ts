@@ -11,7 +11,7 @@ export const Wrapper = styled.View`
 `;
 
 export const ContentWrapper = styled.View`
-  padding: 10px 0;
+  padding: ${Theme.spacings.small}px 0;
   width: 100%;
   border: 2px solid ${Theme.colors.separator};
   border-radius: 6px;
@@ -40,6 +40,6 @@ export const Icon = styled.View`
 `;
 
 export const Title = styled(Text)`
-  margin: 10px 0;
-  margin-left: 10px;
+  margin: ${Theme.spacings.small}px 0;
+  margin-left: ${Theme.spacings.small}px;
 `;

@@ -30,8 +30,8 @@ export const Field = styled.View`
 `;
 
 export const NoteTitle = styled.View`
-  margin-top: 10px;
-  padding: 10px;
+  margin-top: ${Theme.spacings.small}px;
+  padding: ${Theme.spacings.small}px;
   flex-direction: row;
 `;
 

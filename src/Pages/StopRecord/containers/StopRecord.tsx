@@ -45,7 +45,7 @@ const StopRecord = () => {
     try {
       const phoneIsConected = await isPhoneConnected();
 
-      if (!phoneIsConected) {
+      if (phoneIsConected) {
         const resp = await postStopRegister(dataToSend, userToken);
 
         if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {

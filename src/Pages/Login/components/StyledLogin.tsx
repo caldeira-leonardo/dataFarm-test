@@ -23,7 +23,7 @@ export const Content = styled.KeyboardAvoidingView`
 `;
 
 export const Subtitle = styled(Text)`
-  padding: 10px 0 20px 0;
+  padding: ${Theme.spacings.small}px 0 20px 0;
   color: ${Theme.colors.title};
 `;
 

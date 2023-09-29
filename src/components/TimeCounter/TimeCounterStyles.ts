@@ -16,5 +16,5 @@ export const Counter = styled.View<CounterProps>`
   flex-direction: row;
   padding: 15px;
   border-radius: 23px;
-  margin: 0 10px;
+  margin: 0 ${Theme.spacings.small}px;
 `;
