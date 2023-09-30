@@ -34,4 +34,7 @@ export const Label = styled(Text)`
 
 export const Buttonwrapper = styled.View`
   margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

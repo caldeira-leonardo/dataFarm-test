@@ -70,7 +70,13 @@ const LoginComponent = ({
                     isLoading={isLoading}
                     title="Entrar"
                   />
-                  {connectionError ? <Text>Sem Acesso a internet</Text> : <></>}
+                  {connectionError ? (
+                    <Text color="error" bold>
+                      Sem Acesso a internet
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
                 </S.Buttonwrapper>
               </View>
             )}
