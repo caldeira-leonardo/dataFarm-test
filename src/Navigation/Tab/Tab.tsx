@@ -9,7 +9,6 @@ import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
 import SyncData from '../../Pages/SyncData/containers/SyncData';
 import {Dimensions} from 'react-native';
-import {useUser} from '../../Context/userContext';
 import HeaderTitle from '../../components/elements/Header/HeaderTitle';
 
 const Tab = createBottomTabNavigator();
@@ -25,11 +24,8 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 }
 
 export default function LoguedTabs() {
-  const {hasInternet} = useUser();
   const windowWidth = Dimensions.get('window').width;
   const headerTitleFontSize = windowWidth > 400 ? 24 : 20;
-  const iconsColor =
-    hasInternet === true ? Theme.colors.primary : Theme.colors.error;
 
   return (
     <Tab.Navigator
@@ -43,7 +39,7 @@ export default function LoguedTabs() {
         headerTitleStyle: {
           fontSize: headerTitleFontSize,
         },
-        tabBarActiveTintColor: iconsColor,
+        tabBarActiveTintColor: Theme.colors.primary,
       }}>
       <Tab.Screen
         name="Historico"

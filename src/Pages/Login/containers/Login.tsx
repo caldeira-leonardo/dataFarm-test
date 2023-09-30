@@ -11,26 +11,33 @@ const Login = (props: LoginProps) => {
   const navigation = useNavigation();
   const {updateUserToken, user, hasInternet} = useUser();
   const [isLoading, setIsLoading] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
 
   async function onSubmit(data: {email: string; senha: string}) {
-    try {
-      setIsLoading(true);
-      const resp = await LoginService({...data, idPartner: 372});
+    if (hasInternet === true) {
+      try {
+        setIsLoading(true);
+        const resp = await LoginService({...data, idPartner: 372});
 
-      updateUserToken(resp.data.token);
+        updateUserToken(resp.data.token);
 
-      AsyncStorage.setItem('token', JSON.stringify(resp.data.token));
-      AsyncStorage.setItem('keepLoguedIn', JSON.stringify(true));
+        AsyncStorage.setItem('token', JSON.stringify(resp.data.token));
+        AsyncStorage.setItem('keepLoguedIn', JSON.stringify(true));
 
-      setIsLoading(false);
+        setIsLoading(false);
 
-      navigation?.reset({
-        index: 0,
-        routes: [{name: 'Main'}],
-      });
-    } catch (e) {
-      console.log('error updating', e);
-    } finally {
+        navigation?.reset({
+          index: 0,
+          routes: [{name: 'Main'}],
+        });
+      } catch (e) {
+        console.log('error updating', e);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setConnectionError(true);
     }
   }
 
@@ -47,29 +54,33 @@ const Login = (props: LoginProps) => {
   }
 
   const verifyLogin = useCallback(async () => {
-    console.log('hasInternet', hasInternet); // remove logs
-    if (!user?.token && hasInternet === true) {
-      try {
-        setIsLoading(false);
-        const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
-        const token = await AsyncStorage.getItem('token');
+    if (hasInternet === true) {
+      if (!user?.token) {
+        try {
+          setIsLoading(false);
+          const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
+          const token = await AsyncStorage.getItem('token');
 
-        if (token !== null) {
-          updateUserToken(JSON.parse(token));
+          if (token !== null) {
+            updateUserToken(JSON.parse(token));
 
-          if (keepLogin !== null && JSON.parse(keepLogin) === true) {
-            await getResources(JSON.parse(token));
-            navigation?.reset({
-              index: 0,
-              routes: [{name: 'Main'}],
-            });
+            if (keepLogin !== null && JSON.parse(keepLogin) === true) {
+              await getResources(JSON.parse(token));
+              navigation?.reset({
+                index: 0,
+                routes: [{name: 'Main'}],
+              });
+            }
           }
+        } catch (e) {
+          console.log('error updating', e);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (e) {
-        console.log('error updating', e);
-      } finally {
-        setIsLoading(false);
       }
+    } else {
+      setConnectionError(true);
+      setIsLoading(false);
     }
   }, [navigation, updateUserToken, user, hasInternet]);
 
@@ -77,7 +88,9 @@ const Login = (props: LoginProps) => {
     verifyLogin();
   }, [verifyLogin]);
 
-  return <LoginComponent {...props} {...{onSubmit, isLoading}} />;
+  return (
+    <LoginComponent {...props} {...{onSubmit, isLoading, connectionError}} />
+  );
 };
 
 export default Login;

@@ -9,7 +9,11 @@ import {View} from 'react-native';
 import {LoginComponentProps} from '../types/LoginTypes';
 import Text from '../../../components/elements/Text/Text';
 
-const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
+const LoginComponent = ({
+  onSubmit,
+  isLoading,
+  connectionError,
+}: LoginComponentProps) => {
   return (
     <S.Wrapper>
       <S.Content behavior="padding">
@@ -66,6 +70,7 @@ const LoginComponent = ({onSubmit, isLoading}: LoginComponentProps) => {
                     isLoading={isLoading}
                     title="Entrar"
                   />
+                  {connectionError ? <Text>Sem Acesso a internet</Text> : <></>}
                 </S.Buttonwrapper>
               </View>
             )}
