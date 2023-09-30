@@ -2,6 +2,7 @@ import React, {createContext, useContext, useState} from 'react';
 
 type UserProps = {
   token: string;
+  hasNotification?: boolean;
 };
 
 type UserContextProps = {

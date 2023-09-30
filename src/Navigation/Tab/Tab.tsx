@@ -9,6 +9,7 @@ import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
 import SyncData from '../../Pages/SyncData/containers/SyncData';
 import {Dimensions} from 'react-native';
+import {useUser} from '../../Context/userContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 }
 
 export default function LoguedTabs() {
+  const {testeUser} = useUser();
   const windowWidth = Dimensions.get('window').width;
   const headerTitleFontSize = windowWidth > 400 ? 24 : 20;
 
@@ -60,6 +62,7 @@ export default function LoguedTabs() {
         name="Sincronizar"
         component={SyncData}
         options={{
+          tabBarBadge: testeUser ? '' : undefined,
           tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),
         }}
       />

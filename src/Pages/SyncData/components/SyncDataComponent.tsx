@@ -1,18 +1,36 @@
 import React from 'react';
-import {View} from 'react-native';
-import Text from '../../../components/elements/Text/Text';
+import LottieView from 'lottie-react-native';
+import Button from '../../../components/elements/Button/Button';
+import * as S from './SyncDataStyles';
 
-type SyncDataComponentProps = {
-  itens: any[];
-};
-
-const SyncDataComponent = ({itens}: SyncDataComponentProps) => {
+const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
   return (
-    <View>
-      {itens.map(() => (
-        <Text>SyncDataComponent</Text>
-      ))}
-    </View>
+    <S.Wrapper>
+      {!hasInternet ? (
+        <S.Animations>
+          <LottieView
+            source={require('../components/Lotties/wifi-off.json')}
+            autoPlay
+            speed={0.5}
+            resizeMode="cover"
+            style={{width: 350, height: 350}}
+          />
+        </S.Animations>
+      ) : (
+        <>
+          <S.Center>
+            <LottieView
+              source={require('../components/Lotties/wifi-on.json')}
+              autoPlay
+              resizeMode="cover"
+              loop={false}
+              style={{width: 350, height: 350}}
+            />
+          </S.Center>
+          <Button title="Sinconizar" />
+        </>
+      )}
+    </S.Wrapper>
   );
 };
 

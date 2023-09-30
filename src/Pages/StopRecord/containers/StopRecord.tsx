@@ -69,6 +69,7 @@ const StopRecord = () => {
 
   function submit(values: any) {
     setIsLoading(true);
+
     Local.getCurrentPosition(
       pos => {
         const {
