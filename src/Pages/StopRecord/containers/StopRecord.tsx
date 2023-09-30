@@ -1,6 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import StopRecordComponent from '../components/StopRecordComponent';
-import {getResourcesService} from '../../../Services/Resources';
 import {useUser} from '../../../Context/userContext';
 import {
   FarmsProps,
@@ -25,23 +24,21 @@ const StopRecord = () => {
   const fetchResourcesData = useCallback(async () => {
     try {
       setIsFetching(true);
-      if (user?.token) {
-        const {data} = await getResourcesService(user?.token);
-        if (data) {
-          setMachineries(data.resources?.machineries);
-          setFarms(data.resources?.farms);
-          setReasons([...data.resources?.reasons]);
-        }
+      const data = await AsyncStorage.getItem('resources');
+      if (data !== null) {
+        const parceData = JSON.parse(data);
+        setMachineries(parceData?.machineries);
+        setFarms(parceData?.farms);
+        setReasons([...parceData?.reasons]);
       }
     } catch (e) {
       console.log('error updating', e);
     } finally {
       setIsFetching(false);
     }
-  }, [user?.token]);
+  }, []);
 
   async function sendData(dataToSend: StopData, userToken: string) {
-    console.log('dataToSend', dataToSend); // remove logs
     try {
       if (hasInternet) {
         const resp = await postStopRegister(dataToSend, userToken);
@@ -119,7 +116,6 @@ async function handleFormatData(
   storageName: string,
   dataToAdd: StopData | RecordHistoryProp,
 ) {
-  AsyncStorage.removeItem('storageName');
   const storageItem = await AsyncStorage.getItem(storageName);
 
   let newItem: any[] = [];

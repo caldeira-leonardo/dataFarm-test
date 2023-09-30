@@ -30,12 +30,11 @@ const HistoryActivity = () => {
     try {
       setIsLoading(true);
       const data = await getUserResourceData();
-      console.log('data', data); // remove logs
       if (data) {
         const userHistoryData = await getUserHistoryData();
 
         if (userHistoryData !== null) {
-          const filteredData: HistoryDataProps[] = userHistoryData.map(
+          const filteredData: HistoryDataProps[] = userHistoryData?.map(
             (historyData: HistoryStorageDataProps) => {
               const selectedFarm = data?.farms?.filter((farm: FarmsProps) => {
                 return farm.id === historyData.idFarm;

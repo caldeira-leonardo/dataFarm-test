@@ -14,7 +14,7 @@ const Login = (props: LoginProps) => {
   const [connectionError, setConnectionError] = useState(false);
 
   async function onSubmit(data: {email: string; senha: string}) {
-    if (!hasInternet === true) {
+    if (hasInternet === true) {
       try {
         setIsLoading(true);
         const resp = await LoginService({...data, idPartner: 372});
@@ -78,9 +78,6 @@ const Login = (props: LoginProps) => {
           setIsLoading(false);
         }
       }
-    } else {
-      setConnectionError(true);
-      setIsLoading(false);
     }
   }, [navigation, updateUserToken, user, hasInternet]);
 
