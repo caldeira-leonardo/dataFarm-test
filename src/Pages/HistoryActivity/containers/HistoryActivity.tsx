@@ -73,6 +73,8 @@ const HistoryActivity = () => {
   useEffect(() => {
     if (isFocused) {
       fetchResourcesData();
+    } else {
+      setDataToShow([]);
     }
   }, [fetchResourcesData, isFocused]);
 

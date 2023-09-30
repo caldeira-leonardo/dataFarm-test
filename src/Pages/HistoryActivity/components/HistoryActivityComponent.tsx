@@ -18,7 +18,6 @@ const HistoryActivityComponent = ({
   dataToShow = [],
   isLoading,
 }: HistoryActivityComponentProps) => {
-  const skeletonLoadingData: {}[] = [{}, {}, {}];
   const windowWidth = Dimensions.get('window').width;
   const proportion = windowWidth / 12;
   const timerWrapperSize =
@@ -28,7 +27,7 @@ const HistoryActivityComponent = ({
     <S.Wrapper>
       <S.Content>
         {isLoading
-          ? skeletonLoadingData.map(() => (
+          ? [{}, {}, {}].map(() => (
               <Fragment key={uuid.v4().toString()}>
                 <HistorySkeleton />
               </Fragment>

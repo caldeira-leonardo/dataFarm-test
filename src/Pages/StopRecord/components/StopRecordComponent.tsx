@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {
   FarmFieldProps,
   InitialValuesProps,
@@ -26,6 +26,8 @@ import {ValueProps} from '../../../components/elements/Select/SelectTypes';
 import {initialValues} from './StopRecordSchemas';
 import {Keyboard} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
+import uuid from 'react-native-uuid';
+import StopLineSkeleton from '../../../components/StopReasons/Skeleton/StopLineSkeleton';
 
 const StopRecordComponent = ({
   reasons,
@@ -33,8 +35,8 @@ const StopRecordComponent = ({
   machineries,
   submit,
   isLoading,
-}: // isFetching,
-StopRecordComponentProps) => {
+  isFetching,
+}: StopRecordComponentProps) => {
   const [fieldOptions, setFieldOptions] = useState<FarmFieldProps[]>([]);
 
   function onClickSubmit(values: any) {
@@ -146,29 +148,35 @@ StopRecordComponentProps) => {
                 <StopReasons>
                   <StopReasonsTitle>Motivo da Parada</StopReasonsTitle>
                   <StopReasonsContent>
-                    {reasons?.map(reason => {
-                      return (
-                        <View key={reason.icon}>
-                          <StopReasonsLine
-                            // TODO adicionar um skeleton aqui Quando não possuir nada no estado
-                            description={reason.name}
-                            iconPath={reason.icon}
-                            isSelected={
-                              values.stopReason
-                                ? reason.id === values.stopReason?.key
-                                : false
-                            }
-                            onPress={() => {
-                              setFieldValue('stopReason', {
-                                description: reason.name,
-                                key: reason.id,
-                              });
-                              setFieldError('stopReason', undefined);
-                            }}
-                          />
-                        </View>
-                      );
-                    })}
+                    {isFetching
+                      ? [{}, {}, {}].map(() => (
+                          <Fragment key={uuid.v4().toString()}>
+                            <StopLineSkeleton />
+                          </Fragment>
+                        ))
+                      : reasons?.map(reason => {
+                          return (
+                            <View key={uuid.v4().toString()}>
+                              <StopReasonsLine
+                                // TODO adicionar um skeleton aqui Quando não possuir nada no estado
+                                description={reason.name}
+                                iconPath={reason.icon}
+                                isSelected={
+                                  values.stopReason
+                                    ? reason.id === values.stopReason?.key
+                                    : false
+                                }
+                                onPress={() => {
+                                  setFieldValue('stopReason', {
+                                    description: reason.name,
+                                    key: reason.id,
+                                  });
+                                  setFieldError('stopReason', undefined);
+                                }}
+                              />
+                            </View>
+                          );
+                        })}
                   </StopReasonsContent>
                   <>
                     {!!errors.stopReason && (
