@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import StopRecordComponent from '../components/StopRecordComponent';
-import {getResources} from '../../../Services/Resources';
+import {getResourcesService} from '../../../Services/Resources';
 import {useUser} from '../../../Context/userContext';
 import {
   FarmsProps,
@@ -13,7 +13,6 @@ import uuid from 'react-native-uuid';
 import Local from '@react-native-community/geolocation';
 import {postStopRegister} from '../../../Services/Stop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
 
 const StopRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +20,13 @@ const StopRecord = () => {
   const [machineries, setMachineries] = useState<MachineriesProps[]>([]);
   const [farms, setFarms] = useState<FarmsProps[]>([]);
   const [reasons, setReasons] = useState<ReasonsProps[]>([]);
-  const {user} = useUser();
+  const {user, hasInternet} = useUser();
 
   const fetchResourcesData = useCallback(async () => {
     try {
       setIsFetching(true);
       if (user?.token) {
-        const {data} = await getResources(user?.token);
+        const {data} = await getResourcesService(user?.token);
         if (data) {
           setMachineries(data.resources?.machineries);
           setFarms(data.resources?.farms);
@@ -42,10 +41,9 @@ const StopRecord = () => {
   }, [user?.token]);
 
   async function sendData(dataToSend: StopData, userToken: string) {
+    console.log('dataToSend', dataToSend); // remove logs
     try {
-      const phoneIsConected = await isPhoneConnected();
-
-      if (phoneIsConected) {
+      if (hasInternet) {
         const resp = await postStopRegister(dataToSend, userToken);
 
         if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
@@ -102,12 +100,6 @@ const StopRecord = () => {
         maximumAge: 1000,
       },
     );
-  }
-
-  async function isPhoneConnected(): Promise<boolean | null> {
-    return await NetInfo.fetch().then(state => {
-      return state.isInternetReachable;
-    });
   }
 
   useEffect(() => {

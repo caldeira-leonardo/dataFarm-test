@@ -5,10 +5,11 @@ import {useNavigation} from '../../../Context/navigationContext';
 import {LoginProps} from '../types/LoginTypes';
 import {LoginService} from '../../../Services/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getResourcesService} from '../../../Services/Resources';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();
-  const {updateUserToken, user} = useUser();
+  const {updateUserToken, user, hasInternet} = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(data: {email: string; senha: string}) {
@@ -33,8 +34,21 @@ const Login = (props: LoginProps) => {
     }
   }
 
+  async function getResources(token: string) {
+    const res = await getResourcesService(token);
+    if (res?.data) {
+      const resources = {
+        machineries: res.data.resources?.machineries,
+        farms: res.data.resources?.farms,
+        reasons: res.data.resources?.reasons,
+      };
+      await AsyncStorage.setItem('resources', JSON.stringify(resources));
+    }
+  }
+
   const verifyLogin = useCallback(async () => {
-    if (!user?.token) {
+    console.log('hasInternet', hasInternet); // remove logs
+    if (!user?.token && hasInternet === true) {
       try {
         setIsLoading(false);
         const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
@@ -42,12 +56,14 @@ const Login = (props: LoginProps) => {
 
         if (token !== null) {
           updateUserToken(JSON.parse(token));
-        }
-        if (keepLogin !== null && JSON.parse(keepLogin) === true) {
-          navigation?.reset({
-            index: 0,
-            routes: [{name: 'Main'}],
-          });
+
+          if (keepLogin !== null && JSON.parse(keepLogin) === true) {
+            await getResources(JSON.parse(token));
+            navigation?.reset({
+              index: 0,
+              routes: [{name: 'Main'}],
+            });
+          }
         }
       } catch (e) {
         console.log('error updating', e);
@@ -55,7 +71,7 @@ const Login = (props: LoginProps) => {
         setIsLoading(false);
       }
     }
-  }, [navigation, updateUserToken, user]);
+  }, [navigation, updateUserToken, user, hasInternet]);
 
   useEffect(() => {
     verifyLogin();

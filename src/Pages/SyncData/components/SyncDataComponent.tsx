@@ -4,6 +4,7 @@ import Button from '../../../components/elements/Button/Button';
 import * as S from './SyncDataStyles';
 
 const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
+  const style = {width: 350, height: 350};
   return (
     <S.Wrapper>
       {!hasInternet ? (
@@ -13,7 +14,7 @@ const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
             autoPlay
             speed={0.5}
             resizeMode="cover"
-            style={{width: 350, height: 350}}
+            style={style}
           />
         </S.Animations>
       ) : (
@@ -24,7 +25,7 @@ const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
               autoPlay
               resizeMode="cover"
               loop={false}
-              style={{width: 350, height: 350}}
+              style={style}
             />
           </S.Center>
           <Button title="Sinconizar" />

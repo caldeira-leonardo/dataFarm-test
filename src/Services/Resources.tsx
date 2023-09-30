@@ -1,7 +1,7 @@
 import customFetch from './CustomFetch';
 import {endpoints} from './endpoints';
 
-export async function getResources(token: string) {
+export async function getResourcesService(token: string) {
   try {
     let response = await customFetch(endpoints.resources, {
       method: 'GET',

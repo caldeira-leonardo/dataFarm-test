@@ -10,6 +10,7 @@ import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActiv
 import SyncData from '../../Pages/SyncData/containers/SyncData';
 import {Dimensions} from 'react-native';
 import {useUser} from '../../Context/userContext';
+import HeaderTitle from '../../components/elements/Header/HeaderTitle';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,9 +25,11 @@ function handleTabOption({icon, color}: TabOptionsProps) {
 }
 
 export default function LoguedTabs() {
-  const {testeUser} = useUser();
+  const {hasInternet} = useUser();
   const windowWidth = Dimensions.get('window').width;
   const headerTitleFontSize = windowWidth > 400 ? 24 : 20;
+  const iconsColor =
+    hasInternet === true ? Theme.colors.primary : Theme.colors.error;
 
   return (
     <Tab.Navigator
@@ -40,14 +43,14 @@ export default function LoguedTabs() {
         headerTitleStyle: {
           fontSize: headerTitleFontSize,
         },
-        tabBarActiveTintColor: Theme.colors.primary,
+        tabBarActiveTintColor: iconsColor,
       }}>
       <Tab.Screen
         name="Historico"
         component={HistoryActivity}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'clock'}),
-          title: 'Histórico atividades',
+          headerTitle: () => HeaderTitle('Histórico atividades'),
         }}
       />
       <Tab.Screen
@@ -55,15 +58,15 @@ export default function LoguedTabs() {
         component={StopRecord}
         options={{
           tabBarIcon: props => handleTabOption({...props, icon: 'menu'}),
-          title: 'Registro parada',
+          headerTitle: () => HeaderTitle('Registro parada'),
         }}
       />
       <Tab.Screen
         name="Sincronizar"
         component={SyncData}
         options={{
-          tabBarBadge: testeUser ? '' : undefined,
           tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),
+          headerTitle: ({children}) => HeaderTitle(children),
         }}
       />
     </Tab.Navigator>
