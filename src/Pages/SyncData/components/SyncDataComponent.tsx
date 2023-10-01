@@ -3,7 +3,13 @@ import LottieView from 'lottie-react-native';
 import Button from '../../../components/elements/Button/Button';
 import * as S from './SyncDataStyles';
 
-const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
+const SyncDataComponent = ({
+  hasInternet,
+  syncData,
+}: {
+  hasInternet: boolean;
+  syncData(): void;
+}) => {
   const style = {width: 350, height: 350};
   return (
     <S.Wrapper>
@@ -28,7 +34,7 @@ const SyncDataComponent = ({hasInternet}: {hasInternet: boolean}) => {
               style={style}
             />
           </S.Center>
-          <Button title="Sinconizar" />
+          <Button title="Sinconizar" onPress={syncData} />
         </>
       )}
     </S.Wrapper>

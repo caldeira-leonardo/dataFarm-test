@@ -7,17 +7,19 @@ import BackButton from '../../components/elements/BackButton/BackButton';
 import {Theme} from '../../Theme/Theme';
 import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
 import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
-import SyncData from '../../Pages/SyncData/containers/SyncData';
 import {Dimensions} from 'react-native';
 import HeaderTitle from '../../components/elements/Header/HeaderTitle';
+import SyncData from '../../Pages/SyncData/containers/SyncData';
 
 const Tab = createBottomTabNavigator();
 
 function handleTabOption({icon, color}: TabOptionsProps) {
   const Icon: IconProps = {
-    clock: <Clock color={color} />,
-    refresh: <RefreshCcw color={color} />,
-    menu: <Menu color={color} />,
+    clock: <Clock color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />,
+    refresh: (
+      <RefreshCcw color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />
+    ),
+    menu: <Menu color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />,
   };
 
   return Icon[icon];

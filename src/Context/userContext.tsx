@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import NetInfo from '@react-native-community/netinfo';
+import {syncRecordData} from '../Utils/SyncHistoryData';
 
 type UserProps = {
   token?: string;
@@ -33,6 +34,12 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   function logout() {
     setUser(null);
   }
+
+  useEffect(() => {
+    if (hasInternet === true) {
+      user?.token && syncRecordData(user?.token);
+    }
+  }, [hasInternet, user?.token]);
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {

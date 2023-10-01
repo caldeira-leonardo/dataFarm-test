@@ -10,4 +10,5 @@ export type HistoryDataProps = {
   subtitle: string;
   time: number;
   id: number;
+  alreadySent?: boolean;
 };

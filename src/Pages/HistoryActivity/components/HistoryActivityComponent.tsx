@@ -8,14 +8,17 @@ import {Theme} from '../../../Theme/Theme';
 import moment from 'moment';
 import HistorySkeleton from './Skeleton/HistoryActivitySkeleton';
 import uuid from 'react-native-uuid';
+import {Clock} from 'react-native-feather';
 
 type HistoryActivityComponentProps = {
   dataToShow: HistoryDataProps[];
+  dataNotYetSent: HistoryDataProps[];
   isLoading: boolean;
 };
 
 const HistoryActivityComponent = ({
   dataToShow = [],
+  dataNotYetSent = [],
   isLoading,
 }: HistoryActivityComponentProps) => {
   const windowWidth = Dimensions.get('window').width;
@@ -25,6 +28,9 @@ const HistoryActivityComponent = ({
 
   return (
     <S.Wrapper>
+      <Text bold color="error">
+        INPUT DE PESQUISA AQUI
+      </Text>
       <S.Content>
         {isLoading
           ? [{}, {}, {}].map(() => (
@@ -32,20 +38,34 @@ const HistoryActivityComponent = ({
                 <HistorySkeleton />
               </Fragment>
             ))
-          : dataToShow?.map(item => {
-              const formatedTime = moment(item.time).format('DD/MM/YYYY');
-              const formatedHour = moment(item.time).format('h:mm a');
+          : [...dataNotYetSent, ...dataToShow]?.map(item => {
+              const formatedTime = item.time
+                ? moment(item.time).format('DD/MM/YYYY')
+                : '';
+              const formatedHour = item.time
+                ? moment(item.time).format('h:mm a')
+                : '';
               return (
                 <S.ItemWrapper key={item.id}>
                   <S.Icon>
-                    <Svg width={proportion} height={proportion}>
-                      <Path
-                        scaleX={proportion / 1000}
-                        scaleY={proportion / 1000}
-                        d={item.iconPath}
-                        fill={Theme.colors.icon}
+                    {item.alreadySent ? (
+                      <Svg width={proportion} height={proportion}>
+                        <Path
+                          scaleX={proportion / 1000}
+                          scaleY={proportion / 1000}
+                          d={item.iconPath}
+                          fill={Theme.colors.icon}
+                        />
+                      </Svg>
+                    ) : (
+                      <Clock
+                        color={Theme.colors.alertdark}
+                        strokeWidth={3}
+                        scaleX={1.3}
+                        scaleY={1.3}
+                        width={35}
                       />
-                    </Svg>
+                    )}
                   </S.Icon>
                   <S.Descriptions
                     style={{

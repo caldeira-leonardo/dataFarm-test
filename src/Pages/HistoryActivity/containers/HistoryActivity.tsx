@@ -13,66 +13,72 @@ import {getUserResourceData} from '../../../Utils/getUserResources';
 const HistoryActivity = () => {
   const isFocused = useIsFocused();
   const [dataToShow, setDataToShow] = useState<HistoryDataProps[]>([]);
+  const [dataNotYetSent, setdataNotYetSent] = useState<HistoryDataProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getUserHistoryData = useCallback(async () => {
-    const userHistoryData: any = await AsyncStorage.getItem('recordHistory');
+  const getResourcesData = useCallback(
+    async (resourceData: any, storageLocal: string, alreadySent: boolean) => {
+      const fetchedUserData: any = await AsyncStorage.getItem(storageLocal);
 
-    if (userHistoryData !== null) {
-      const historyData = JSON.parse(userHistoryData);
+      let dataToReturn: HistoryDataProps[] = [];
+      if (fetchedUserData !== null) {
+        const userData = JSON.parse(fetchedUserData);
+        dataToReturn = userData?.map((historyData: HistoryStorageDataProps) => {
+          const selectedFarm = resourceData?.farms?.filter(
+            (farm: FarmsProps) => {
+              return farm.id === historyData.idFarm;
+            },
+          )[0];
 
-      setDataToShow(historyData);
-      return historyData;
-    }
-  }, []);
+          const selectedReason = resourceData?.reasons?.filter(
+            (reason: ReasonsProps) => reason.id === historyData.idReason,
+          )[0];
+
+          return {
+            id: uuid.v4(),
+            iconPath: selectedReason.icon,
+            title: selectedFarm.name,
+            subtitle: selectedReason.name,
+            time: historyData.time,
+            alreadySent,
+          };
+        });
+      }
+      return dataToReturn;
+    },
+    [],
+  );
 
   const fetchResourcesData = useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await getUserResourceData();
-      if (data) {
-        const userHistoryData = await getUserHistoryData();
-
-        if (userHistoryData !== null) {
-          const filteredData: HistoryDataProps[] = userHistoryData?.map(
-            (historyData: HistoryStorageDataProps) => {
-              const selectedFarm = data?.farms?.filter((farm: FarmsProps) => {
-                return farm.id === historyData.idFarm;
-              })[0];
-
-              const selectedReason = data?.reasons?.filter(
-                (reason: ReasonsProps) => reason.id === historyData.idReason,
-              )[0];
-
-              return {
-                id: uuid.v4(),
-                iconPath: selectedReason.icon,
-                title: selectedFarm.name,
-                subtitle: selectedReason.name,
-                time: historyData.time,
-              };
-            },
-          );
-
-          setDataToShow(filteredData);
-        }
+      if (data !== null) {
+        const userHistoryData = await getResourcesData(
+          data,
+          'recordHistory',
+          true,
+        );
+        setDataToShow(userHistoryData);
+        const dataToFetch = await getResourcesData(data, 'dataToFetch', false);
+        setdataNotYetSent(dataToFetch);
       }
     } catch (e) {
       console.log('error updating', e);
     } finally {
       setIsLoading(false);
     }
-  }, [getUserHistoryData]);
+  }, [getResourcesData]);
 
   useEffect(() => {
     if (isFocused) {
       fetchResourcesData();
-    } else {
-      setDataToShow([]);
     }
   }, [fetchResourcesData, isFocused]);
 
-  return <HistoryActivityComponent {...{dataToShow, isLoading}} />;
+  return (
+    <HistoryActivityComponent {...{dataToShow, dataNotYetSent, isLoading}} />
+  );
 };
 
 export default HistoryActivity;

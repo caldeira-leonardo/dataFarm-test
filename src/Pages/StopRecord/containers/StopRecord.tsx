@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import StopRecordComponent from '../components/StopRecordComponent';
 import {useUser} from '../../../Context/userContext';
+import {ToastAndroid} from 'react-native';
 import {
   FarmsProps,
   MachineriesProps,
@@ -20,6 +21,10 @@ const StopRecord = () => {
   const [farms, setFarms] = useState<FarmsProps[]>([]);
   const [reasons, setReasons] = useState<ReasonsProps[]>([]);
   const {user, hasInternet} = useUser();
+
+  function showToast(message: string) {
+    ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.TOP);
+  }
 
   const fetchResourcesData = useCallback(async () => {
     try {
@@ -52,8 +57,13 @@ const StopRecord = () => {
 
           await handleFormatData('recordHistory', dataToSave);
         }
+
+        showToast('Dados enviada com sucesso !');
       } else {
         await handleFormatData('dataToFetch', dataToSend);
+        showToast(
+          'Dados salvos, serão enviados assim que você retomar a conexão com a internet',
+        );
       }
     } catch (e) {
       console.log('error updating', e);

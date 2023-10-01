@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import SyncDataComponent from '../components/SyncDataComponent';
 import {useUser} from '../../../Context/userContext';
 import {syncRecordData} from '../../../Utils/SyncHistoryData';
@@ -6,15 +6,13 @@ import {syncRecordData} from '../../../Utils/SyncHistoryData';
 const SyncData = () => {
   const {hasInternet, user} = useUser();
 
-  useEffect(() => {
-    if (hasInternet) {
-      if (user?.token) {
-        syncRecordData(user?.token);
-      }
+  async function syncData() {
+    if (user?.token) {
+      await syncRecordData(user?.token);
     }
-  }, [hasInternet, user?.token]);
+  }
 
-  return <SyncDataComponent {...{hasInternet}} />;
+  return <SyncDataComponent {...{hasInternet, syncData}} />;
 };
 
 export default SyncData;
