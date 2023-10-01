@@ -13,6 +13,18 @@ const Login = (props: LoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [connectionError, setConnectionError] = useState(false);
 
+  async function getResources(token: string) {
+    const res = await getResourcesService(token);
+    if (res?.data) {
+      const resources = {
+        machineries: res.data.resources?.machineries,
+        farms: res.data.resources?.farms,
+        reasons: res.data.resources?.reasons,
+      };
+      await AsyncStorage.setItem('resources', JSON.stringify(resources));
+    }
+  }
+
   async function onSubmit(data: {email: string; senha: string}) {
     if (hasInternet === true) {
       try {
@@ -26,6 +38,7 @@ const Login = (props: LoginProps) => {
 
         setIsLoading(false);
 
+        await getResources(resp.data.token);
         navigation?.reset({
           index: 0,
           routes: [{name: 'Main'}],
@@ -38,18 +51,6 @@ const Login = (props: LoginProps) => {
       }
     } else {
       setConnectionError(true);
-    }
-  }
-
-  async function getResources(token: string) {
-    const res = await getResourcesService(token);
-    if (res?.data) {
-      const resources = {
-        machineries: res.data.resources?.machineries,
-        farms: res.data.resources?.farms,
-        reasons: res.data.resources?.reasons,
-      };
-      await AsyncStorage.setItem('resources', JSON.stringify(resources));
     }
   }
 

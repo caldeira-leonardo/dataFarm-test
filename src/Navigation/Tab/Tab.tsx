@@ -15,11 +15,11 @@ const Tab = createBottomTabNavigator();
 
 function handleTabOption({icon, color}: TabOptionsProps) {
   const Icon: IconProps = {
-    clock: <Clock color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />,
+    clock: <Clock color={color} strokeWidth={3} scaleX={1.3} scaleY={1.3} />,
     refresh: (
-      <RefreshCcw color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />
+      <RefreshCcw color={color} strokeWidth={3} scaleX={1.3} scaleY={1.3} />
     ),
-    menu: <Menu color={color} strokeWidth={3} scaleX={1.2} scaleY={1.2} />,
+    menu: <Menu color={color} strokeWidth={3} scaleX={1.3} scaleY={1.3} />,
   };
 
   return Icon[icon];

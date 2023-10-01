@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableWithoutFeedback, Keyboard} from 'react-native';
 import Button from '../../../components/elements/Button/Button';
-import * as S from './StyledLogin';
+import * as S from './LoginStyled';
 import Input from '../../../components/elements/Input/Input';
 import {Formik} from 'formik';
 import * as Yup from 'yup';

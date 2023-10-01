@@ -33,3 +33,19 @@ export const Time = styled.View`
   right: 0;
   align-items: flex-end;
 `;
+
+export const InputWrapper = styled.View`
+  background-color: ${Theme.colors.separator};
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 0 10px;
+  padding: 0 15px;
+  border-radius: 8px;
+  height: 40px;
+`;
+
+export const SearchInput = styled.TextInput`
+  width: 90%;
+  margin-left: 10px;
+`;
