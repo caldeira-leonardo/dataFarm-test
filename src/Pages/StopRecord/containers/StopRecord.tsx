@@ -54,7 +54,7 @@ const StopRecord = () => {
         showToast('Dados enviada com sucesso !');
       } else {
         await handleFormatData('dataToFetch', dataToSend);
-        showToast('Dados salvos. Retoma a conexão para envia-los');
+        showToast('Dados salvos. Retome a conexão para envia-los');
       }
     } catch (e) {
       console.log('error updating', e);
