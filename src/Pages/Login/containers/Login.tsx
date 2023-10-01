@@ -23,6 +23,7 @@ const Login = (props: LoginProps) => {
       };
       await AsyncStorage.setItem('resources', JSON.stringify(resources));
     }
+    setIsLoading(false);
   }
 
   async function onSubmit(data: {email: string; senha: string}) {
@@ -35,8 +36,6 @@ const Login = (props: LoginProps) => {
 
         AsyncStorage.setItem('token', JSON.stringify(resp.data.token));
         AsyncStorage.setItem('keepLoguedIn', JSON.stringify(true));
-
-        setIsLoading(false);
 
         await getResources(resp.data.token);
         navigation?.reset({
@@ -57,8 +56,8 @@ const Login = (props: LoginProps) => {
   const verifyLogin = useCallback(async () => {
     if (hasInternet === true) {
       if (!user?.token) {
+        setIsLoading(true);
         try {
-          setIsLoading(false);
           const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
           if (keepLogin !== null && JSON.parse(keepLogin) === true) {
             const token = await AsyncStorage.getItem('token');

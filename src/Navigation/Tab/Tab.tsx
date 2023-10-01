@@ -59,14 +59,19 @@ export default function LoguedTabs() {
           headerTitle: () => HeaderTitle('Registro parada'),
         }}
       />
-      <Tab.Screen
-        name="Sincronizar"
-        component={SyncData}
-        options={{
-          tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),
-          headerTitle: ({children}) => HeaderTitle(children),
-        }}
-      />
+      {false ? (
+        <Tab.Screen
+          //Pagina de verificação do status da internet
+          name="Sincronizar"
+          component={SyncData}
+          options={{
+            tabBarIcon: props => handleTabOption({...props, icon: 'refresh'}),
+            headerTitle: ({children}) => HeaderTitle(children),
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </Tab.Navigator>
   );
 }

@@ -65,8 +65,8 @@ const HistoryActivityComponent = ({
                       {item.alreadySent ? (
                         <Svg width={proportion} height={proportion}>
                           <Path
-                            scaleX={proportion / 1000}
-                            scaleY={proportion / 1000}
+                            scaleX={proportion / 1040}
+                            scaleY={proportion / 1040}
                             d={item.iconPath}
                             fill={Theme.colors.icon}
                           />
