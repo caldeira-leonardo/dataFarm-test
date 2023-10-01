@@ -1,6 +1,6 @@
 //@ts-nocheck
 import styled from 'styled-components/native';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 
 export const Content = styled.View`
   border-bottom-width: 2px;

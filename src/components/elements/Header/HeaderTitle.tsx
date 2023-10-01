@@ -1,6 +1,6 @@
 import React from 'react';
 import Text from '../Text/Text';
-import {useUser} from '../../../Context/userContext';
+import {useUser} from '@src/Context/userContext';
 import * as S from './HeaderTitleStyles';
 
 const HeaderTitle = (children: any) => {

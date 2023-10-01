@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {ButtonProps} from './ButtonTypes';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import {Text} from '../Text/TextStyled';
 
 export const Wrapper = styled.TouchableOpacity<ButtonProps>`

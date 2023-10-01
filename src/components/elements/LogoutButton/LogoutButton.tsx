@@ -1,9 +1,9 @@
 import React from 'react';
-import {useUser} from '../../../Context/userContext';
-import {useNavigation} from '../../../Context/navigationContext';
+import {useUser} from '@src/Context/userContext';
+import {useNavigation} from '@src/Context/navigationContext';
 import {LogOut} from 'react-native-feather';
 import * as S from './LogoutButtonStyles';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LogoutButton() {

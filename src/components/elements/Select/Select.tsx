@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import {SepectProps} from './SelectTypes';
 import Text from '../Text/Text';
 

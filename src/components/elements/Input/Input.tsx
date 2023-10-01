@@ -3,7 +3,7 @@ import * as S from './InputStyled';
 import {InputProps} from './InputTypes';
 import Text from '../Text/Text';
 import {Eye, EyeOff} from 'react-native-feather';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 
 export default function Input(props: InputProps) {
   const {errorMessage, hasError, type = 'text', value} = props;

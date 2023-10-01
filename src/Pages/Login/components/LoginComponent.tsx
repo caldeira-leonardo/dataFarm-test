@@ -1,13 +1,13 @@
 import React from 'react';
 import {TouchableWithoutFeedback, Keyboard} from 'react-native';
-import Button from '../../../components/elements/Button/Button';
+import Button from '@src/components/elements/Button/Button';
 import * as S from './LoginStyled';
-import Input from '../../../components/elements/Input/Input';
+import Input from '@src/components/elements/Input/Input';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {View} from 'react-native';
 import {LoginComponentProps} from '../types/LoginTypes';
-import Text from '../../../components/elements/Text/Text';
+import Text from '@src/components/elements/Text/Text';
 
 const LoginComponent = ({
   onSubmit,
@@ -18,7 +18,7 @@ const LoginComponent = ({
     <S.Wrapper>
       <S.Content behavior="padding">
         <S.ImageStyled
-          source={require('../../../assets/logo-datafarm.png')}
+          source={require('@src/assets/logo-datafarm.png')}
           width={100}
           height={80}
         />

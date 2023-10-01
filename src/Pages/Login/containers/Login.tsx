@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import LoginComponent from '../components/LoginComponent';
-import {useUser} from '../../../Context/userContext';
-import {useNavigation} from '../../../Context/navigationContext';
+import {useUser} from '@src/Context/userContext';
+import {useNavigation} from '@src/Context/navigationContext';
 import {LoginProps} from '../types/LoginTypes';
-import {LoginService} from '../../../Services/User';
+import {LoginService} from '@src/Services/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getResourcesService} from '../../../Services/Resources';
+import {getResourcesService} from '@src/Services/Resources';
 
 const Login = (props: LoginProps) => {
   const navigation = useNavigation();

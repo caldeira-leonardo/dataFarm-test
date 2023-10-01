@@ -2,14 +2,14 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Clock, Menu, RefreshCcw} from 'react-native-feather';
 import {IconProps, TabOptionsProps} from './TabTypes';
-import LogoutButton from '../../components/elements/LogoutButton/LogoutButton';
-import BackButton from '../../components/elements/BackButton/BackButton';
-import {Theme} from '../../Theme/Theme';
-import StopRecord from '../../Pages/StopRecord/containers/StopRecord';
-import HistoryActivity from '../../Pages/HistoryActivity/containers/HistoryActivity';
+import LogoutButton from '@src/components/elements/LogoutButton/LogoutButton';
+import BackButton from '@src/components/elements/BackButton/BackButton';
+import {Theme} from '@src/Theme/Theme';
+import StopRecord from '@src/Pages/StopRecord/containers/StopRecord';
+import HistoryActivity from '@src/Pages/HistoryActivity/containers/HistoryActivity';
 import {Dimensions} from 'react-native';
-import HeaderTitle from '../../components/elements/Header/HeaderTitle';
-import SyncData from '../../Pages/SyncData/containers/SyncData';
+import HeaderTitle from '@src/components/elements/Header/HeaderTitle';
+import SyncData from '@src/Pages/SyncData/containers/SyncData';
 
 const Tab = createBottomTabNavigator();
 

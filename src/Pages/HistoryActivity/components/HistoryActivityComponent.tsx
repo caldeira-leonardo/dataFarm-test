@@ -1,15 +1,15 @@
 import React, {Fragment, useState, useMemo} from 'react';
-import Text from '../../../components/elements/Text/Text';
+import Text from '@src/components/elements/Text/Text';
 import * as S from './HistoryActivityStyled';
 import {HistoryDataProps} from '../Types/HistoryActivityTypes';
 import {Path, Svg} from 'react-native-svg';
 import {Dimensions} from 'react-native';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import moment from 'moment';
 import HistorySkeleton from './Skeleton/HistoryActivitySkeleton';
 import uuid from 'react-native-uuid';
 import {Clock, Search} from 'react-native-feather';
-import {filterData} from '../../../Utils/HistoryInputFilter';
+import {filterData} from '@src/Utils/HistoryInputFilter';
 
 type HistoryActivityComponentProps = {
   dataToShow: HistoryDataProps[];

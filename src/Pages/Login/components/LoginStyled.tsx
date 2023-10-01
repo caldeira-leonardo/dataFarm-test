@@ -1,8 +1,8 @@
 //@ts-nocheck
 
 import styled from 'styled-components/native';
-import {Theme} from '../../../Theme/Theme';
-import Text from '../../../components/elements/Text/Text';
+import {Theme} from '@src/Theme/Theme';
+import Text from '@src/components/elements/Text/Text';
 
 export const Wrapper = styled.ScrollView`
   background-color: ${Theme.colors.light};

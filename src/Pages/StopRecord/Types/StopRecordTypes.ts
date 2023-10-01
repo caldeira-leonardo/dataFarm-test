@@ -1,4 +1,4 @@
-import {ValueProps} from '../../../components/elements/Select/SelectTypes';
+import {ValueProps} from '@src/components/elements/Select/SelectTypes';
 
 export type StopRecordComponentProps = {
   isLoading: boolean;

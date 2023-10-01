@@ -1,7 +1,7 @@
 import React from 'react';
 import SyncDataComponent from '../components/SyncDataComponent';
-import {useUser} from '../../../Context/userContext';
-import {syncRecordData} from '../../../Utils/SyncHistoryData';
+import {useUser} from '@src/Context/userContext';
+import {syncRecordData} from '@src/Utils/SyncHistoryData';
 
 const SyncData = () => {
   const {hasInternet, user} = useUser();

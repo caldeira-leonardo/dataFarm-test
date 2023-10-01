@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import Text from '../elements/Text/Text';
 import {MinusCircle, PlusCircle} from 'react-native-feather';
 import * as S from './TimeCounterStyles';
-import {Theme} from '../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import {TimeCounterProps} from './TimeCounterTypes';
 
 const TimeCounter = ({onPress, value = 0, onError}: TimeCounterProps) => {

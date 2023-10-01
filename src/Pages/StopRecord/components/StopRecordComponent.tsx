@@ -10,24 +10,24 @@ import {
   StopReasonsTitle,
   StopReasonsLine,
   StopReasonsContent,
-} from '../../../components/StopReasons/StopReasonsIndex';
+} from '@src/components/StopReasons/StopReasonsIndex';
 import {Edit} from 'react-native-feather';
-import {Theme} from '../../../Theme/Theme';
-import Input from '../../../components/elements/Input/Input';
-import Button from '../../../components/elements/Button/Button';
-import TimeCounter from '../../../components/TimeCounter/TimeCounter';
-import Select from '../../../components/elements/Select/Select';
-import Text from '../../../components/elements/Text/Text';
+import {Theme} from '@src/Theme/Theme';
+import Input from '@src/components/elements/Input/Input';
+import Button from '@src/components/elements/Button/Button';
+import TimeCounter from '@src/components/TimeCounter/TimeCounter';
+import Select from '@src/components/elements/Select/Select';
+import Text from '@src/components/elements/Text/Text';
 import {KeyboardAvoidingView, View} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {Shape} from '../../../components/elements/YupShape/YupShape';
-import {ValueProps} from '../../../components/elements/Select/SelectTypes';
+import {Shape} from '@src/components/elements/YupShape/YupShape';
+import {ValueProps} from '@src/components/elements/Select/SelectTypes';
 import {initialValues} from './StopRecordSchemas';
 import {Keyboard} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
 import uuid from 'react-native-uuid';
-import StopLineSkeleton from '../../../components/StopReasons/Skeleton/StopLineSkeleton';
+import StopLineSkeleton from '@src/components/StopReasons/Skeleton/StopLineSkeleton';
 
 const StopRecordComponent = ({
   reasons,

@@ -6,9 +6,9 @@ import {
   HistoryDataProps,
   HistoryStorageDataProps,
 } from '../Types/HistoryActivityTypes';
-import {FarmsProps, ReasonsProps} from '../../StopRecord/Types/StopRecordTypes';
+import {FarmsProps, ReasonsProps} from '@src/StopRecord/Types/StopRecordTypes';
 import uuid from 'react-native-uuid';
-import {getUserResourceData} from '../../../Utils/getUserResources';
+import {getUserResourceData} from '@src/Utils/getUserResources';
 
 const HistoryActivity = () => {
   const isFocused = useIsFocused();

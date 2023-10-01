@@ -8,9 +8,9 @@ import {
   //   Edit,
   ArrowLeft,
 } from 'react-native-feather';
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import * as S from './BackButtonStyles';
-import {useNavigation} from '../../../Context/navigationContext';
+import {useNavigation} from '@src/Context/navigationContext';
 
 type BackButtonProps = {};
 

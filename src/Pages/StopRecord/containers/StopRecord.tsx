@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import StopRecordComponent from '../components/StopRecordComponent';
-import {useUser} from '../../../Context/userContext';
+import {useUser} from '@src/Context/userContext';
 import {ToastAndroid} from 'react-native';
 import {
   FarmsProps,
@@ -11,7 +11,7 @@ import {
 } from '../Types/StopRecordTypes';
 import uuid from 'react-native-uuid';
 import Local from '@react-native-community/geolocation';
-import {postStopRegister} from '../../../Services/Stop';
+import {postStopRegister} from '@src/Services/Stop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StopRecord = () => {

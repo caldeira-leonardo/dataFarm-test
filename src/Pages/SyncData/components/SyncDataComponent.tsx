@@ -1,6 +1,6 @@
 import React from 'react';
 import LottieView from 'lottie-react-native';
-import Button from '../../../components/elements/Button/Button';
+import Button from '@src/components/elements/Button/Button';
 import * as S from './SyncDataStyles';
 
 const SyncDataComponent = ({

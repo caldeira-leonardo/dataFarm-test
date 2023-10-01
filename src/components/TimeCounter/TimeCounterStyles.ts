@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Theme} from '../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 import {CounterProps} from './TimeCounterTypes';
 
 export const Wrapper = styled.View`

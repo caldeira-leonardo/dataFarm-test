@@ -1,4 +1,4 @@
-import {Theme} from '../../../Theme/Theme';
+import {Theme} from '@src/Theme/Theme';
 
 export type TextProps = {
   color?: keyof typeof Theme.colors;
