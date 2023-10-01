@@ -51,6 +51,7 @@ export type StopData = {
   minutes: number;
   longitude: number | string;
   latitude: number | string;
+  time?: number;
 };
 
 export type RecordHistoryProp = {

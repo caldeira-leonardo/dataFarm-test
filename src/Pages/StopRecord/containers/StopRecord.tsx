@@ -1,18 +1,18 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import StopRecordComponent from '../components/StopRecordComponent';
 import {useUser} from '@src/Context/userContext';
-import {ToastAndroid} from 'react-native';
 import {
   FarmsProps,
   MachineriesProps,
   ReasonsProps,
-  RecordHistoryProp,
   StopData,
 } from '../Types/StopRecordTypes';
 import uuid from 'react-native-uuid';
 import Local from '@react-native-community/geolocation';
 import {postStopRegister} from '@src/Services/Stop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {handleFormatData} from '@src/Utils/StopRecord';
+import {showToast} from '@src/Utils/Toastr';
 
 const StopRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +21,6 @@ const StopRecord = () => {
   const [farms, setFarms] = useState<FarmsProps[]>([]);
   const [reasons, setReasons] = useState<ReasonsProps[]>([]);
   const {user, hasInternet} = useUser();
-
-  function showToast(message: string) {
-    ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.TOP);
-  }
 
   const fetchResourcesData = useCallback(async () => {
     try {
@@ -116,22 +112,3 @@ const StopRecord = () => {
 };
 
 export default StopRecord;
-
-async function handleFormatData(
-  storageName: string,
-  dataToAdd: StopData | RecordHistoryProp,
-) {
-  const storageItem = await AsyncStorage.getItem(storageName);
-
-  let newItem: any[] = [];
-
-  if (storageItem !== null) {
-    const parceItem = JSON.parse(storageItem);
-    newItem = [...parceItem];
-  }
-
-  await AsyncStorage.setItem(
-    storageName,
-    JSON.stringify([...newItem, dataToAdd]),
-  );
-}

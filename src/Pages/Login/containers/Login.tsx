@@ -60,12 +60,11 @@ const Login = (props: LoginProps) => {
         try {
           setIsLoading(false);
           const keepLogin = await AsyncStorage.getItem('keepLoguedIn');
-          const token = await AsyncStorage.getItem('token');
+          if (keepLogin !== null && JSON.parse(keepLogin) === true) {
+            const token = await AsyncStorage.getItem('token');
+            if (token !== null) {
+              updateUserToken(JSON.parse(token));
 
-          if (token !== null) {
-            updateUserToken(JSON.parse(token));
-
-            if (keepLogin !== null && JSON.parse(keepLogin) === true) {
               await getResources(JSON.parse(token));
               navigation?.reset({
                 index: 0,
