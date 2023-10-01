@@ -47,23 +47,18 @@ const StopRecord = () => {
     try {
       if (hasInternet) {
         const resp = await postStopRegister(dataToSend, userToken);
-
         if (resp?.data?.status === 'SYNCRONIZED_SUCCESS') {
           const dataToSave = {
             idFarm: dataToSend.idFarm,
             idReason: dataToSend.idReason,
             time: +new Date(),
           };
-
           await handleFormatData('recordHistory', dataToSave);
         }
-
         showToast('Dados enviada com sucesso !');
       } else {
         await handleFormatData('dataToFetch', dataToSend);
-        showToast(
-          'Dados salvos, serão enviados assim que você retomar a conexão com a internet',
-        );
+        showToast('Dados salvos. Retoma a conexão para envia-los');
       }
     } catch (e) {
       console.log('error updating', e);

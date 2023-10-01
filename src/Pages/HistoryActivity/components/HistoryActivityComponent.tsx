@@ -83,13 +83,15 @@ const HistoryActivityComponent = ({
                     </S.Icon>
                     <S.Descriptions
                       style={{
-                        width: timerWrapperSize,
+                        width: item.time
+                          ? timerWrapperSize
+                          : timerWrapperSize + windowWidth * 0.15,
                       }}>
                       <Text numberOfLines={1} color="textSecondary" bold>
                         {item.title}
                       </Text>
                       <Text color="icon" numberOfLines={1}>
-                        {item.subtitle} {item.subtitle} {item.subtitle}
+                        {item.subtitle}
                       </Text>
                     </S.Descriptions>
                     <S.Time>
